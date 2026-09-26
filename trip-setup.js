@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const budgetInput = document.getElementById("budgetInput");
     const continueButton = document.getElementById("continueButton");
     const destinationName = document.getElementById("destinationName");
-    const API_URL = "http://127.0.0.1:8000";
+    const API_URL = "https://smart-yatra-api.onrender.com";
 
     // =========================
     // 1. SMART URL & STORAGE GRABBER
