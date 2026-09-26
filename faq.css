@@ -1,0 +1,438 @@
+/* =========================================================
+   SMART YATRA - FAQ PAGE
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #07111F;
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+    width: 100%;
+    height: 82px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 32px;
+
+    background: #050D18;
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+
+/* Logo */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.logo-icon {
+    width: 54px;
+    height: 54px;
+
+    border: 1px solid #F9A04F;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #F9A04F;
+
+    font-size: 24px;
+}
+
+.logo-text {
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.logo-text span {
+    color: #F9A04F;
+}
+
+
+/* Navigation */
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    transition: 0.3s;
+}
+
+.nav-links a:hover {
+    color: #F9A04F;
+}
+
+.nav-links a.active {
+    color: #F9A04F;
+}
+
+
+/* =========================================================
+   FAQ HERO
+========================================================= */
+
+.faq-hero {
+    min-height: 480px;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+
+    padding: 80px 20px;
+
+    background:
+        radial-gradient(circle at center,
+            rgba(249, 160, 79, 0.08),
+            transparent 55%);
+}
+
+.small-title {
+    color: #F9A04F;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 6px;
+
+    margin-bottom: 28px;
+}
+
+.faq-hero h1 {
+    font-size: clamp(48px, 7vw, 90px);
+
+    line-height: 0.95;
+
+    font-weight: 900;
+
+    letter-spacing: -3px;
+}
+
+.faq-hero h1 span {
+    color: #F9A04F;
+}
+
+.faq-hero p {
+    max-width: 700px;
+
+    margin-top: 30px;
+
+    color: #B8C2CF;
+
+    font-size: 17px;
+
+    line-height: 1.7;
+}
+
+
+/* =========================================================
+   FAQ SECTION
+========================================================= */
+
+.faq-section {
+    padding: 40px 20px 100px;
+}
+
+.faq-container {
+    width: 100%;
+    max-width: 900px;
+
+    margin: 0 auto;
+}
+
+
+/* FAQ item */
+
+.faq-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+
+/* Question */
+
+.faq-question {
+    width: 100%;
+
+    padding: 28px 8px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    font-size: 18px;
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+.faq-question:hover {
+    color: #F9A04F;
+}
+
+
+/* Plus */
+
+.faq-icon {
+    width: 38px;
+    height: 38px;
+
+    flex-shrink: 0;
+
+    border: 1px solid rgba(249, 160, 79, 0.6);
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #F9A04F;
+
+    font-size: 23px;
+    font-weight: 300;
+
+    transition: transform 0.3s;
+}
+
+
+/* Answer */
+
+.faq-answer {
+    max-height: 0;
+
+    overflow: hidden;
+
+    transition: max-height 0.4s ease;
+}
+
+.faq-answer p {
+    color: #AEB8C5;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    padding: 0 55px 25px 8px;
+}
+
+
+/* Active FAQ */
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg);
+}
+
+.faq-item.active .faq-question {
+    color: #F9A04F;
+}
+
+
+/* =========================================================
+   CTA
+========================================================= */
+
+.faq-cta {
+    padding: 100px 20px;
+
+    text-align: center;
+
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+
+    background:
+        linear-gradient(180deg,
+            #07111F 0%,
+            #0A1728 100%);
+}
+
+.cta-content {
+    max-width: 800px;
+    margin: auto;
+}
+
+.faq-cta h2 {
+    font-size: clamp(42px, 6vw, 75px);
+
+    line-height: 1;
+
+    font-weight: 900;
+
+    letter-spacing: -2px;
+
+    margin-bottom: 40px;
+}
+
+.faq-cta h2 span {
+    color: #F9A04F;
+}
+
+
+/* CTA button */
+
+.cta-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 28px;
+
+    min-width: 220px;
+
+    padding: 20px 30px;
+
+    background: #F9A04F;
+
+    color: #07111F;
+
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    transition: 0.3s;
+}
+
+.cta-button span {
+    font-size: 22px;
+}
+
+.cta-button:hover {
+    transform: translateY(-3px);
+
+    background: #ffffff;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .navbar {
+        height: auto;
+
+        padding: 15px 18px;
+
+        flex-direction: column;
+
+        gap: 18px;
+    }
+
+    .logo-text {
+        font-size: 20px;
+    }
+
+    .logo-icon {
+        width: 48px;
+        height: 48px;
+    }
+
+    .nav-links {
+        gap: 18px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .nav-links a {
+        font-size: 12px;
+    }
+
+    .faq-hero {
+        min-height: 400px;
+
+        padding: 60px 20px;
+    }
+
+    .small-title {
+        font-size: 10px;
+        letter-spacing: 4px;
+    }
+
+    .faq-hero h1 {
+        font-size: 46px;
+        letter-spacing: -2px;
+    }
+
+    .faq-hero p {
+        font-size: 14px;
+    }
+
+    .faq-section {
+        padding-bottom: 70px;
+    }
+
+    .faq-question {
+        font-size: 16px;
+        gap: 15px;
+    }
+
+    .faq-answer p {
+        font-size: 14px;
+        padding-right: 20px;
+    }
+
+    .faq-cta {
+        padding: 70px 20px;
+    }
+
+    .faq-cta h2 {
+        font-size: 42px;
+    }
+
+}

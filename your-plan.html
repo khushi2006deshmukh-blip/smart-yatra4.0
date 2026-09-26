@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Yatra | Your Smart Trip Roadmap</title>
+    <link rel="stylesheet" href="your-plan.css">
+    
+    <!-- Chart.js for Temperature Forecast Trend -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* PROFILE BUTTON & POPUP MODAL */
+        .btn-profile-icon {
+            background: #0b1728;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 13.5px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-profile-icon:hover {
+            border-color: #38bdf8;
+            background: #0e223b;
+        }
+
+        .btn-save-trip {
+            background: #38bdf8;
+            color: #04121b;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 13.5px;
+            transition: all 0.2s;
+        }
+        .btn-save-trip:hover { background: #7dd3fc; }
+
+        .auth-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(4, 12, 23, 0.82);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 99999;
+        }
+        .auth-modal-overlay.active { display: flex !important; }
+
+        .auth-modal-card {
+            background: #08111f;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 18px;
+            width: 90%;
+            max-width: 390px;
+            padding: 26px 28px;
+            position: relative;
+            box-shadow: 0 24px 50px rgba(0, 0, 0, 0.7);
+            color: #fff;
+        }
+
+        .auth-close-btn {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: none;
+            border: none;
+            color: #94a3b8;
+            font-size: 26px;
+            cursor: pointer;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 8px;
+        }
+
+        .auth-tab-btn {
+            background: none;
+            border: none;
+            color: #64748b;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 6px;
+        }
+        .auth-tab-btn.active {
+            color: #38bdf8;
+            border-bottom: 2px solid #38bdf8;
+        }
+
+        .auth-form {
+            display: flex;
+            flex-direction: column;
+            gap: 13px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            text-align: left;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            background: #0c1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #fff;
+            font-size: 13.5px;
+            outline: none;
+        }
+
+        .auth-submit-btn {
+            background: #10b981;
+            color: #04121b;
+            border: none;
+            padding: 11px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 13.5px;
+            cursor: pointer;
+            margin-top: 6px;
+        }
+
+        .auth-logout-btn {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        .auth-msg {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 8px;
+            min-height: 16px;
+        }
+        .auth-msg.error { color: #f87171; }
+        .auth-msg.success { color: #34d399; }
+
+        /* MULTI-DAY WEATHER GRID */
+        .weather-forecast-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 12px;
+            margin-top: 14px;
+        }
+        .day-weather-item {
+            background: #08111f;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: 12px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .day-weather-item .w-day {
+            font-size: 11px;
+            font-weight: 700;
+            color: #94a3b8;
+            text-transform: uppercase;
+        }
+        .day-weather-item .w-temp-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 4px 0;
+        }
+        .day-weather-item .w-icon { font-size: 28px; }
+        .day-weather-item .w-temp { font-size: 17px; font-weight: 800; color: #fff; }
+        .day-weather-item .w-cond { font-size: 12px; color: #38bdf8; font-weight: 600; }
+        .day-weather-item .w-cloth-tip {
+            font-size: 11.5px;
+            color: #cbd5e1;
+            background: #0c1a2e;
+            padding: 6px 8px;
+            border-radius: 6px;
+            border-left: 3px solid #10b981;
+            margin-top: 4px;
+            line-height: 1.35;
+        }
+
+        /* SPOT SPECIFIC OUTFIT BOX */
+        .spot-outfit-box {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.08), rgba(56, 189, 248, 0.08));
+            border: 1px dashed rgba(56, 189, 248, 0.35);
+            border-radius: 10px;
+            padding: 11px 14px;
+            margin: 12px 0 14px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .spot-outfit-icon {
+            font-size: 22px;
+            background: #0c1a2e;
+            padding: 6px 8px;
+            border-radius: 8px;
+        }
+        .spot-outfit-info strong {
+            display: block;
+            font-size: 12px;
+            color: #10b981;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+        .spot-outfit-info p {
+            margin: 0;
+            font-size: 13px;
+            color: #e2e8f0;
+            line-height: 1.45;
+        }
+
+        /* DAILY KHARCHA STRIP */
+        .daily-expense-bar {
+            background: #08111f;
+            border: 1px solid rgba(56, 189, 248, 0.15);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin: 12px 0 16px 0;
+        }
+        .daily-expense-tags {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 8px;
+            margin-top: 8px;
+        }
+        .day-tag-item {
+            background: #0c1a2e;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #cbd5e1;
+            display: flex;
+            justify-content: space-between;
+        }
+        .day-tag-item b { color: #10b981; }
+
+        @media print {
+            .btn-profile-icon, #whatsappShareBtn, #saveTripBtn, .btn-print-top, .auth-modal-overlay, .expense-input-box {
+                display: none !important;
+            }
+            body { background: #fff !important; color: #000 !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <main class="plan-page">
+
+        <!-- 1. HERO SECTION -->
+        <section class="plan-hero">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <div class="hero-label">SMART YATRA • AI TRIP ROADMAP</div>
+                
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <button id="authBtn" class="btn-profile-icon" title="Account">
+                        <span id="profileIcon">👤</span>
+                        <span id="profileName">Sign In / Sign Up</span>
+                    </button>
+                    <a href="vault.html" style="background: #0b1728; border: 1px solid rgba(56, 189, 248, 0.4); color: #38bdf8; padding: 8px 16px; border-radius: 999px; text-decoration: none; font-size: 13.5px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px;">
+    🔐 My Vault
+</a>
+                    <button id="saveTripBtn" class="btn-save-trip">💾 Save Trip</button>
+                    <button id="whatsappShareBtn" class="btn-share-wa">📲 Share on WhatsApp</button>
+                    <button onclick="window.print()" class="btn-print-top">📄 Download Plan (PDF)</button>
+                </div>
+            </div>
+
+            <h1 id="planTitle">Your Smart Trip Roadmap</h1>
+            <p id="planSummary">Your personalized travel plan is ready.</p>
+            <div class="route-pill" id="routeDisplay">Starting point → Destination</div>
+        </section>
+
+        <!-- 2. TRIP OVERVIEW CARDS -->
+        <section class="overview-grid">
+            <div class="overview-card">
+                <span>📅</span>
+                <small>TRAVEL DATES</small>
+                <strong id="dateDisplay">--</strong>
+            </div>
+
+            <div class="overview-card">
+                <span>💰</span>
+                <small>YOUR BUDGET</small>
+                <strong id="budgetDisplay">₹0</strong>
+            </div>
+
+            <div class="overview-card">
+                <span>👥</span>
+                <small>TRAVELLERS</small>
+                <strong id="travellerDisplay">1 person</strong>
+            </div>
+
+            <div class="overview-card">
+                <span>🚆</span>
+                <small>TRANSPORT</small>
+                <strong id="transportDisplay">Smart Choice</strong>
+            </div>
+        </section>
+
+        <!-- 3. MULTI-DAY WEATHER & TEMPERATURE TREND GRAPH -->
+        <section class="section-card weather-card">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">LIVE CLIMATE FORECAST</span>
+                    <h2>📈 Day-by-Day Temperature Trend & Weather Guide</h2>
+                </div>
+                <div class="status-badge">DAILY FORECAST</div>
+            </div>
+            <p class="section-description">
+                Estimated day-by-day temperature curve, climate conditions, and essential clothing suggestions.
+            </p>
+
+            <!-- Temperature Chart Canvas -->
+            <div style="background: #08111f; border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 12px; padding: 18px; margin-top: 14px;">
+                <div style="height: 220px; width: 100%; position: relative;">
+                    <canvas id="weatherTempChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Weather Details Grid -->
+            <div id="multiDayWeatherGrid" class="weather-forecast-grid" style="margin-top: 16px;"></div>
+        </section>
+
+        <!-- 4. STAY / HOTEL SWITCHER -->
+        <section class="section-card">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">STAY CUSTOMIZATION</span>
+                    <h2>🏨 Choose Your Stay Type</h2>
+                </div>
+            </div>
+            <p class="section-description">Switch hotels to adjust comfort and live budget estimation.</p>
+            <div id="hotelSwitcherList" class="hotel-grid"></div>
+        </section>
+
+        <!-- 5. BUDGET BREAKDOWN (GUARANTEED NO ZERO) -->
+        <section class="section-card budget-section">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">SMART BUDGET</span>
+                    <h2>Budget Optimization</h2>
+                </div>
+                <div id="budgetStatus" class="status-badge">OPTIMIZED</div>
+            </div>
+
+            <p id="budgetMessage" class="section-description">
+                Calculated the most efficient way to use your trip budget.
+            </p>
+
+            <div class="budget-numbers">
+                <div>
+                    <small>YOUR BUDGET</small>
+                    <strong id="userBudget">₹0</strong>
+                </div>
+
+                <div>
+                    <small>ESTIMATED TOTAL</small>
+                    <strong id="estimatedTotal">₹0</strong>
+                </div>
+
+                <div>
+                    <small>REMAINING</small>
+                    <strong id="remainingBudget">₹0</strong>
+                </div>
+
+                <div>
+                    <small>SAVINGS</small>
+                    <strong id="savings">₹0</strong>
+                </div>
+            </div>
+
+            <div class="budget-breakdown">
+                <h3>Where your money goes</h3>
+
+                <div class="budget-row">
+                    <span>🚌 Intercity Travel</span>
+                    <strong id="intercityTravel">₹0</strong>
+                </div>
+
+                <div class="budget-row">
+                    <span>🏨 Stay</span>
+                    <strong id="stayCost">₹0</strong>
+                </div>
+
+                <div class="budget-row">
+                    <span>🍛 Food</span>
+                    <strong id="foodCost">₹0</strong>
+                </div>
+
+                <div class="budget-row">
+                    <span>🚕 Local Transport</span>
+                    <strong id="localTransport">₹0</strong>
+                </div>
+
+                <div class="budget-row">
+                    <span>🎟️ Activities</span>
+                    <strong id="activitiesCost">₹0</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. DETAILED ROADMAP WITH MULTI-DAY KHARCHA, OUTFIT & TRAINS -->
+        <section class="section-card roadmap-section">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker">SMART TRIP ROADMAP</span>
+                    <h2>Detailed Day-by-Day Plan & Train Intelligence</h2>
+                </div>
+            </div>
+            <p class="section-description">
+                Day-by-day plan with daily target expenses, spot outfit suggestions, confirmation metrics, and navigation links.
+            </p>
+            <div id="daysContainer" class="days-container"></div>
+        </section>
+
+        <!-- 7. SCAM RADAR & SLANGS -->
+        <div class="feature-two-col">
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker" style="color: #f87171;">LOCAL INTELLIGENCE</span>
+                        <h2>🛡️ Scam Alert & Safety Radar</h2>
+                    </div>
+                </div>
+                <div id="safetyRadarList" class="scam-alert-box"></div>
+            </section>
+
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker" style="color: #38bdf8;">COMMUNICATION</span>
+                        <h2>🗣️ Local Slangs & Bargain Phrases</h2>
+                    </div>
+                </div>
+                <div id="slangList" class="slang-box"></div>
+            </section>
+        </div>
+
+        <!-- 8. PACKING CHECKLIST & EXPENSE TRACKER -->
+        <div class="feature-two-col" style="margin-top: 20px;">
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">PREPARATION</span>
+                        <h2>🧳 Trip Packing Checklist</h2>
+                    </div>
+                </div>
+                <div id="packingListContainer" class="checklist-box"></div>
+            </section>
+
+            <section class="section-card">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-kicker">ON-TRIP TRACKER</span>
+                        <h2>💸 Expense Log & Group Split</h2>
+                    </div>
+                </div>
+                <div class="expense-input-box">
+                    <input type="text" id="expenseItem" placeholder="e.g. Cafe Bill, Taxi">
+                    <input type="number" id="expenseCost" placeholder="₹ Amount">
+                    <button id="addExpenseBtn">+ Add</button>
+                </div>
+                <div id="expenseList" class="expense-history"></div>
+                <div class="expense-total-bar">
+                    <span>Total Spent:</span>
+                    <strong id="totalSpentDisplay">₹0</strong>
+                </div>
+                <div class="split-bill-box">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-size: 13px; color: #94a3b8;">👥 Split (<span id="splitTravellerCount">1</span> members):</span>
+                        <strong id="splitPerPerson" style="color: #38bdf8; font-size: 15px;">₹0 / person</strong>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- 9. LOCAL BUSINESSES -->
+        <section class="section-card" style="margin-top: 25px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <div>
+                    <span class="section-kicker">COMMUNITY IMPACT</span>
+                    <h2 style="margin: 4px 0 0 0;">🌱 Support Local Economy & Vendors</h2>
+                </div>
+                <span style="color: #10b981; font-size: 12px; background: #064e3b; padding: 4px 10px; border-radius: 6px; font-weight: bold;">Zero Commission</span>
+            </div>
+            <div id="localBusinessList"></div>
+        </section>
+
+        <!-- 10. EMERGENCY SOS -->
+        <section class="section-card emergency-section" style="margin-top: 25px;">
+            <div class="section-heading">
+                <div>
+                    <span class="section-kicker" style="color: #f87171;">SAFETY FIRST</span>
+                    <h2>🚨 Emergency & SOS Helpline</h2>
+                </div>
+            </div>
+            <div class="emergency-grid">
+                <div class="sos-card">
+                    <h4>National Emergency</h4>
+                    <p>Police / Fire / Health</p>
+                    <a href="tel:112" class="sos-btn">📞 Call 112</a>
+                </div>
+                <div class="sos-card">
+                    <h4>Railway Helpline</h4>
+                    <p>Rail Madad & Inquiries</p>
+                    <a href="tel:139" class="sos-btn">📞 Call 139</a>
+                </div>
+                <div class="sos-card">
+                    <h4>Tourist Helpline</h4>
+                    <p>Incredible India 24x7</p>
+                    <a href="tel:1363" class="sos-btn">📞 Call 1363</a>
+                </div>
+                <div class="sos-card">
+                    <h4>Women Helpline</h4>
+                    <p>Safety & Security</p>
+                    <a href="tel:1091" class="sos-btn">📞 Call 1091</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 11. PRINT / FINISH CARD -->
+        <section class="final-card">
+            <span>✦ SMART YATRA</span>
+            <h2>Travel smarter.<br>Discover more. 🌏</h2>
+            <p>Your roadmap balances budget, comfort, experiences and local tourism.</p>
+            <button onclick="window.print()">🖨️ SAVE / PRINT ROADMAP</button>
+        </section>
+
+    </main>
+
+    <!-- AUTH POPUP MODAL -->
+    <div id="authModal" class="auth-modal-overlay">
+        <div class="auth-modal-card">
+            <button id="closeAuthModal" class="auth-close-btn">&times;</button>
+            
+            <div class="auth-tabs" id="authTabsContainer">
+                <button id="tabLogin" class="auth-tab-btn active">Sign In</button>
+                <button id="tabSignup" class="auth-tab-btn">Create Account</button>
+            </div>
+
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="you@example.com" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="auth-submit-btn">Login to Smart Yatra</button>
+            </form>
+
+            <form id="signupForm" class="auth-form" style="display: none;">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="signupName" placeholder="e.g. Rahul Sharma" required autocomplete="name">
+                </div>
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="signupEmail" placeholder="you@example.com" required autocomplete="email">
+                </div>
+                <div class="form-group">
+                    <label>Create Password</label>
+                    <input type="password" id="signupPassword" placeholder="••••••••" required autocomplete="new-password">
+                </div>
+                <button type="submit" class="auth-submit-btn">Register Account</button>
+            </form>
+
+            <div id="loggedInView" style="display: none; text-align: center; padding: 18px 0;">
+                <p style="color: #94a3b8; font-size: 13.5px;">Currently Logged In</p>
+                <h3 id="loggedInUserName" style="color: #fff; margin: 6px 0 4px 0; font-size: 18px;"></h3>
+                <p id="loggedInUserEmail" style="color: #38bdf8; font-size: 12.5px; margin-bottom: 20px;"></p>
+                <button id="logoutBtn" class="auth-logout-btn">Log Out</button>
+            </div>
+
+            <div id="authMsg" class="auth-msg"></div>
+        </div>
+    </div>
+
+    <!-- ROBUST SCRIPT ENGINE -->
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const $ = (id) => document.getElementById(id);
+        const money = (val) => "₹" + Number(val || 0).toLocaleString("en-IN");
+
+        function formatDate(value) {
+            if (!value) return "25 Sept 2026";
+            const date = new Date(value + "T00:00:00");
+            return Number.isNaN(date.getTime()) ? value : date.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+        }
+
+        function getDayDate(startDateStr, dayIndex) {
+            const baseDate = startDateStr ? new Date(startDateStr + "T00:00:00") : new Date("2026-09-25T00:00:00");
+            baseDate.setDate(baseDate.getDate() + dayIndex);
+            return Number.isNaN(baseDate.getTime()) ? `Day ${dayIndex + 1}` : baseDate.toLocaleDateString("en-IN", { day: "numeric", month: "short" });
+        }
+
+        // --- 1. LOCAL DATA EXTRACTION WITH BULLETPROOF FALLBACKS ---
+        let trip = {};
+        let plan = {};
+        try { trip = JSON.parse(localStorage.getItem("smartYatraTrip")) || {}; } catch (e) {}
+        try { plan = JSON.parse(localStorage.getItem("smartYatraPlan")) || {}; } catch (e) {}
+
+        const destinationName = trip.destination || plan.destination || "Goa";
+        const originName = trip.from || "Durg";
+        const travellers = Number(trip.travellers || 1);
+
+        const stationCodeMap = { "delhi": "NDLS", "mumbai": "CSMT", "pune": "PUNE", "goa": "MAO", "manali": "CDG", "rishikesh": "RKSH", "durg": "DURG" };
+        const originCode = stationCodeMap[originName.toLowerCase().trim()] || originName.slice(0, 4).toUpperCase();
+        const destCode = stationCodeMap[destinationName.toLowerCase().trim()] || destinationName.slice(0, 4).toUpperCase();
+
+        if ($("planTitle")) $("planTitle").textContent = `${destinationName} Roadmap`;
+        if ($("routeDisplay")) $("routeDisplay").textContent = `${originName} (${originCode}) ➔ ${destinationName} (${destCode})`;
+        if ($("dateDisplay")) $("dateDisplay").textContent = `${formatDate(trip.startDate)} — ${formatDate(trip.endDate || "2026-09-27")}`;
+        if ($("travellerDisplay")) $("travellerDisplay").textContent = `${travellers} ${travellers === 1 ? 'person' : 'people'}`;
+        if ($("transportDisplay")) $("transportDisplay").textContent = trip.transport || "Train";
+
+        // Budget Calculations (Guaranteed positive numbers)
+        let userBudget = Number(trip.budget || plan.total_budget || 34000);
+        if (userBudget <= 0) userBudget = 34000;
+
+        const breakdown = plan.budgetBreakdown || {};
+        const intercity = Number(breakdown.intercityTravel) || 2000;
+        let selectedHotelPrice = Number(plan.recommended_hotel?.price || breakdown.stay) || 1200;
+        const food = Number(breakdown.food) || 9600;
+        const localTrans = Number(breakdown.localTransport) || 4800;
+        const activities = Number(breakdown.activities) || 6400;
+
+        function renderBudgetSummary() {
+            const estimatedTotal = intercity + selectedHotelPrice + food + localTrans + activities;
+            const remaining = userBudget - estimatedTotal;
+            const savings = Math.max(0, remaining);
+
+            if ($("budgetDisplay")) $("budgetDisplay").textContent = money(userBudget);
+            if ($("userBudget")) $("userBudget").textContent = money(userBudget);
+            if ($("estimatedTotal")) $("estimatedTotal").textContent = money(estimatedTotal);
+            if ($("remainingBudget")) $("remainingBudget").textContent = money(remaining);
+            if ($("savings")) $("savings").textContent = money(savings);
+
+            if ($("intercityTravel")) $("intercityTravel").textContent = money(intercity);
+            if ($("stayCost")) $("stayCost").textContent = money(selectedHotelPrice);
+            if ($("foodCost")) $("foodCost").textContent = money(food);
+            if ($("localTransport")) $("localTransport").textContent = money(localTrans);
+            if ($("activitiesCost")) $("activitiesCost").textContent = money(activities);
+        }
+        renderBudgetSummary();
+
+        // --- 2. SPOT OUTFIT HELPER ---
+        function getSpotOutfitRecommendation(activityText, dest) {
+            const text = (activityText + " " + dest).toLowerCase();
+            if (text.includes("beach") || text.includes("water sports") || text.includes("cruise") || text.includes("calangute") || text.includes("butterfly")) {
+                return {
+                    icon: "🩳",
+                    title: "Beach & Watersports Attire",
+                    tip: "Breathable linen shirt, lightweight swim shorts, UV sunglasses, aur waterproof flip-flops pehnein."
+                };
+            } else if (text.includes("church") || text.includes("temple") || text.includes("aarti") || text.includes("heritage") || text.includes("gufa") || text.includes("fontainhas")) {
+                return {
+                    icon: "👗",
+                    title: "Modest & Cultural Walk Attire",
+                    tip: "Shoulders aur knees cover karne wale light cotton clothes pehnein. Aise easy slip-on sandals jo places of worship par utarne me aasan hon."
+                };
+            } else if (text.includes("fort") || text.includes("trek") || text.includes("waterfall") || text.includes("dudhsagar") || text.includes("jogini")) {
+                return {
+                    icon: "👟",
+                    title: "Trekking & Active Footwear",
+                    tip: "Sweat-wicking dry-fit T-shirt, stretchable track pants, sun cap, aur grip wale running/hiking shoes zaroor pehnein."
+                };
+            } else if (dest.toLowerCase().includes("manali") || text.includes("snow") || text.includes("igloo")) {
+                return {
+                    icon: "🧥",
+                    title: "Layered Warm Clothing",
+                    tip: "Thermal inner wear, fleece hoodie aur windproof jacket carry karein. Evening breeze ke liye woolen scarf zaroor rakhein."
+                };
+            } else {
+                return {
+                    icon: "👕",
+                    title: "Casual City & Cafe Attire",
+                    tip: "Comfortable cotton tee, breathable denim ya chinos aur soft walking shoes jo explore karne ke liye aaramdayak hon."
+                };
+            }
+        }
+
+        // --- 3. MULTI-DAY WEATHER & TEMPERATURE GRAPH ---
+        let weatherChartInstance = null;
+
+        function renderMultiDayWeather(daysCount, dest, startDateStr) {
+            const grid = $("multiDayWeatherGrid");
+            const canvas = $("weatherTempChart");
+            if (!grid) return;
+
+            const isMountain = dest.toLowerCase().includes("manali") || dest.toLowerCase().includes("shimla");
+            const isRiverside = dest.toLowerCase().includes("rishikesh");
+
+            const weatherProfiles = isMountain ? [
+                { icon: "⛅", maxTemp: 19, minTemp: 14, cond: "Chilly & Breezy", tip: "Light jacket & windcheater" },
+                { icon: "☀️", maxTemp: 21, minTemp: 16, cond: "Pleasant Sunshine", tip: "Full sleeve tee & shades" },
+                { icon: "🌧️", maxTemp: 16, minTemp: 12, cond: "Evening Drizzle", tip: "Waterproof jacket & umbrella" }
+            ] : isRiverside ? [
+                { icon: "🌤️", maxTemp: 29, minTemp: 22, cond: "Mild & Breezy", tip: "Comfortable cotton & sandals" },
+                { icon: "☀️", maxTemp: 31, minTemp: 24, cond: "Sunny Riverbank", tip: "Sunscreen & breathable tee" },
+                { icon: "⛅", maxTemp: 27, minTemp: 20, cond: "Cool Evening Aarti", tip: "Light stole / evening layer" }
+            ] : [
+                { icon: "☀️", maxTemp: 32, minTemp: 28, cond: "Sunny Beach Day", tip: "Light airy linen & shades" },
+                { icon: "⛅", maxTemp: 30, minTemp: 27, cond: "Humid Coastal Breeze", tip: "Cotton tee & quick-dry shorts" },
+                { icon: "🌦️", maxTemp: 29, minTemp: 26, cond: "Occasional Spray", tip: "Flip-flops & beach hat" }
+            ];
+
+            const labels = [];
+            const maxTemps = [];
+            const minTemps = [];
+            let cardsHtml = "";
+
+            for (let i = 0; i < daysCount; i++) {
+                const profile = weatherProfiles[i % weatherProfiles.length];
+                const dateText = getDayDate(startDateStr, i);
+
+                labels.push(`Day ${i + 1}`);
+                maxTemps.push(profile.maxTemp);
+                minTemps.push(profile.minTemp);
+
+                cardsHtml += `
+                    <div class="day-weather-item">
+                        <span class="w-day">Day ${i + 1} • ${dateText}</span>
+                        <div class="w-temp-row">
+                            <span class="w-icon">${profile.icon}</span>
+                            <div>
+                                <div class="w-temp">${profile.minTemp}°C - ${profile.maxTemp}°C</div>
+                                <div class="w-cond">${profile.cond}</div>
+                            </div>
+                        </div>
+                        <div class="w-cloth-tip">💡 <b>Pack:</b> ${profile.tip}</div>
+                    </div>
+                `;
+            }
+            grid.innerHTML = cardsHtml;
+
+            // Chart Rendering
+            if (canvas && typeof Chart !== "undefined") {
+                if (weatherChartInstance) weatherChartInstance.destroy();
+
+                const ctx = canvas.getContext("2d");
+                weatherChartInstance = new Chart(ctx, {
+                    type: "line",
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: "Max Temp (°C)",
+                                data: maxTemps,
+                                borderColor: "#f59e0b",
+                                backgroundColor: "rgba(245, 158, 11, 0.15)",
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: "#f59e0b",
+                                pointRadius: 5,
+                                borderWidth: 2.5
+                            },
+                            {
+                                label: "Min Temp (°C)",
+                                data: minTemps,
+                                borderColor: "#38bdf8",
+                                backgroundColor: "rgba(56, 189, 248, 0.15)",
+                                fill: true,
+                                tension: 0.4,
+                                pointBackgroundColor: "#38bdf8",
+                                pointRadius: 5,
+                                borderWidth: 2.5
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { labels: { color: "#cbd5e1", font: { size: 12 } } },
+                            tooltip: {
+                                backgroundColor: "#0c1a2e",
+                                titleColor: "#38bdf8",
+                                bodyColor: "#fff",
+                                borderColor: "rgba(56, 189, 248, 0.3)",
+                                borderWidth: 1
+                            }
+                        },
+                        scales: {
+                            x: {
+                                ticks: { color: "#94a3b8" },
+                                grid: { color: "rgba(255, 255, 255, 0.05)" }
+                            },
+                            y: {
+                                ticks: {
+                                    color: "#94a3b8",
+                                    callback: function(v) { return v + "°C"; }
+                                },
+                                grid: { color: "rgba(255, 255, 255, 0.05)" }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+
+        // --- 4. TRAIN ROUTING FUNCTION (NO 404 LINK) ---
+        function getTrainIntelligence(fromC, toC) {
+            return {
+                statusText: "🟢 Regular Seats Available",
+                urgencyClass: "normal",
+                confirmationChance: "92% (High Confirmation)",
+                tatkalAdvice: "Tatkal window opens 10:00 AM (AC) & 11:00 AM (Non-AC) 1 day prior.",
+                recommendedTrains: [
+                    { no: "12780", name: "Goa Superfast Express", time: "Dep: 16:15 ➔ Arr: 06:30", type: "Daily Overnight", fare: "₹650 (SL) | ₹1,750 (3A)" },
+                    { no: "22230", name: "Vande Bharat Express", time: "Dep: 06:00 ➔ Arr: 14:15", type: "Fastest SF", fare: "₹1,450 (CC) | ₹2,600 (EC)" }
+                ],
+                confirmTktDeepLink: `https://www.confirmtkt.com/train-search?from=${fromC}&to=${toC}`,
+                irctcDirectLink: `https://www.irctc.co.in/nget/train-search`
+            };
+        }
+
+        // --- 5. HOTEL SWITCHER ---
+        const hotelContainer = $("hotelSwitcherList");
+        const availableHotels = plan.available_hotels || [
+            { name: "Beach Shack Inn", price: 1200, rating: 4.1, type: "Budget" },
+            { name: "Palolem Beach Resort", price: 3800, rating: 4.6, type: "Mid-Range" },
+            { name: "Taj Exotica Goa", price: 12500, rating: 4.9, type: "Luxury" }
+        ];
+
+        if (hotelContainer) {
+            hotelContainer.innerHTML = availableHotels.map((hotel, i) => `
+                <div class="hotel-card ${i === 0 ? 'active' : ''}" data-price="${hotel.price}">
+                    <div class="hotel-tag">${hotel.type}</div>
+                    <h4>${hotel.name}</h4>
+                    <div class="hotel-rating">⭐ ${hotel.rating} / 5.0</div>
+                    <div class="hotel-price">₹${hotel.price.toLocaleString("en-IN")} <span>/ night</span></div>
+                    <button class="btn-select-hotel">${i === 0 ? 'Selected' : 'Select'}</button>
+                </div>
+            `).join("");
+
+            const hotelCards = hotelContainer.querySelectorAll(".hotel-card");
+            hotelCards.forEach(card => {
+                card.addEventListener("click", function() {
+                    hotelCards.forEach(c => {
+                        c.classList.remove("active");
+                        c.querySelector("button").textContent = "Select";
+                    });
+                    this.classList.add("active");
+                    this.querySelector("button").textContent = "Selected";
+                    selectedHotelPrice = Number(this.getAttribute("data-price"));
+                    renderBudgetSummary();
+                });
+            });
+        }
+
+        // --- 6. RENDER ITINERARY WITH WEATHER & SPOT OUTFIT ---
+        const defaultItinerary = {
+            "Day 1": "Arrive in Goa. Check into Beach Shack Inn. Settle in and explore nearby surroundings.",
+            "Day 2": "Visit Butterfly Beach. Explore local markets and sample authentic street food.",
+            "Day 3": "Water sports adventures at Calangute and visit historical Aguada Fort.",
+            "Day 4": "Explore heritage churches of Old Goa and enjoy an evening sunset cruise.",
+            "Day 5": "Final day in Goa. Souvenir shopping, check-out, and departure."
+        };
+
+        const itineraryToRender = (plan && plan.itinerary && Object.keys(plan.itinerary).length > 0) 
+            ? plan.itinerary 
+            : defaultItinerary;
+
+        const totalDays = Object.keys(itineraryToRender).length || 5;
+
+        // Render Multi-Day Weather Graph & Cards
+        renderMultiDayWeather(totalDays, destinationName, trip.startDate);
+
+        const daysContainer = $("daysContainer");
+        const arrivalTrain = getTrainIntelligence(originCode, destCode);
+        const returnTrain = getTrainIntelligence(destCode, originCode);
+
+        const crowdLevels = [
+            { badge: "🟢 Low Crowd (Serene)", time: "Best Time: 07:00 AM - 09:30 AM" },
+            { badge: "🟡 Moderate Footfall", time: "Best Time: 04:00 PM - 06:30 PM" },
+            { badge: "🔴 Peak Rush Hours", time: "Avoid 12:00 PM - 03:00 PM" }
+        ];
+
+        if (daysContainer) {
+            daysContainer.innerHTML = Object.entries(itineraryToRender).map(([dayKey, activity], index) => {
+                const isFirstDay = (index === 0);
+                const isLastDay = (index === totalDays - 1);
+                const formattedDayDate = getDayDate(trip.startDate, index);
+                const crowd = crowdLevels[index % crowdLevels.length];
+
+                const dayFood = isFirstDay ? 700 : (isLastDay ? 700 : 950);
+                const dayLocal = isFirstDay ? 600 : 400;
+                const dayActivity = (isFirstDay || isLastDay) ? 200 : 1200;
+                const dayShopping = isLastDay ? 1500 : 350;
+                const dayTotal = dayFood + dayLocal + dayActivity + dayShopping;
+
+                const outfit = getSpotOutfitRecommendation(activity, destinationName);
+
+                return `
+                    <article class="itinerary-card">
+                        <div class="day-badge-wrapper" style="justify-content: space-between; flex-wrap: wrap;">
+                            <div style="display: flex; align-items: center; gap: 14px;">
+                                <div class="day-number-circle">${index + 1}</div>
+                                <div>
+                                    <h3 class="day-heading">${dayKey}</h3>
+                                    <span class="day-date">📅 ${formattedDayDate}</span>
+                                </div>
+                            </div>
+                            
+                            <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+                                <div class="day-budget-pill">
+                                    💰 Day Budget: <strong>₹${dayTotal.toLocaleString('en-IN')}</strong>
+                                </div>
+                                <div class="crowd-pill">
+                                    <span>${crowd.badge}</span> • <small>${crowd.time}</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <p class="day-activity-text">${activity}</p>
+
+                        <div class="spot-outfit-box">
+                            <span class="spot-outfit-icon">${outfit.icon}</span>
+                            <div class="spot-outfit-info">
+                                <strong>${outfit.title} — Outfit Recommendation</strong>
+                                <p>${outfit.tip}</p>
+                            </div>
+                        </div>
+
+                        <div class="daily-expense-bar">
+                            <span style="font-size: 10.5px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; display: block;">💵 Is Din Ka Kharch Breakdown (Target):</span>
+                            <div class="daily-expense-tags">
+                                <div class="day-tag-item">🍛 Meals: <b>₹${dayFood}</b></div>
+                                <div class="day-tag-item">🚕 Commute: <b>₹${dayLocal}</b></div>
+                                <div class="day-tag-item">🎟️ Activities & Entry: <b>₹${dayActivity}</b></div>
+                                <div class="day-tag-item">🛍️ Shopping / Misc: <b>₹${dayShopping}</b></div>
+                            </div>
+                        </div>
+
+                        ${isFirstDay ? `
+                            <div class="train-trust-card">
+                                <div class="train-trust-header">
+                                    <div>
+                                        <span class="train-tag">🚆 ONWARD TRAIN ROUTING</span>
+                                        <h4 style="margin: 4px 0 0 0; color: #fff; font-size: 16px;">
+                                            ${originName} (${originCode}) ➔ ${destinationName} (${destCode})
+                                        </h4>
+                                    </div>
+                                    <span class="train-status-pill ${arrivalTrain.urgencyClass}">
+                                        ${arrivalTrain.statusText}
+                                    </span>
+                                </div>
+
+                                <div class="train-metrics-row">
+                                    <div class="metric-box">
+                                        <small>Confirmation Probability</small>
+                                        <strong style="color: #10b981;">📊 ${arrivalTrain.confirmationChance}</strong>
+                                    </div>
+                                    <div class="metric-box">
+                                        <small>Prepaid Station Taxi</small>
+                                        <strong style="color: #38bdf8;">🚖 Approx ₹650 - ₹850 to Hotel</strong>
+                                    </div>
+                                </div>
+
+                                <div class="recommended-trains-list">
+                                    <span style="font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px; display: block; margin-bottom: 8px;">
+                                        Top Recommended Trains:
+                                    </span>
+                                    ${arrivalTrain.recommendedTrains.map(t => `
+                                        <div class="train-item-row">
+                                            <div>
+                                                <strong style="color: #ffffff; font-size: 14px;">#${t.no} ${t.name}</strong>
+                                                <span style="color: #38bdf8; font-size: 12px; display: block; margin-top: 2px;">
+                                                    ⏱️ ${t.time} • ${t.type}
+                                                </span>
+                                            </div>
+                                            <div style="text-align: right;">
+                                                <span style="color: #10b981; font-weight: 700; font-size: 13px;">${t.fare}</span>
+                                            </div>
+                                        </div>
+                                    `).join("")}
+                                </div>
+
+                                <div class="tatkal-alert-bar">
+                                    ⚡ <b>Tatkal Intelligence:</b> ${arrivalTrain.tatkalAdvice}
+                                </div>
+
+                                <div class="train-actions">
+                                    <a href="${arrivalTrain.confirmTktDeepLink}" target="_blank" class="btn-train-confirm">
+                                        🔍 Check Live Seats on ConfirmTkt ↗
+                                    </a>
+                                    <a href="${arrivalTrain.irctcDirectLink}" target="_blank" class="btn-train-irctc">
+                                        🎟️ Book on Official IRCTC ↗
+                                    </a>
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${isLastDay ? `
+                            <div class="train-trust-card return-card">
+                                <div class="train-trust-header">
+                                    <div>
+                                        <span class="train-tag" style="color: #f59e0b;">🔄 RETURN JOURNEY TRAIN</span>
+                                        <h4 style="margin: 4px 0 0 0; color: #fff; font-size: 16px;">
+                                            ${destinationName} (${destCode}) ➔ ${originName} (${originCode})
+                                        </h4>
+                                    </div>
+                                    <span class="train-status-pill ${returnTrain.urgencyClass}">
+                                        ${returnTrain.statusText}
+                                    </span>
+                                </div>
+
+                                <div class="train-metrics-row">
+                                    <div class="metric-box">
+                                        <small>Return Confirmation Probability</small>
+                                        <strong style="color: #10b981;">📊 ${returnTrain.confirmationChance}</strong>
+                                    </div>
+                                    <div class="metric-box">
+                                        <small>Station Reporting Time</small>
+                                        <strong style="color: #f59e0b;">⏰ Reach Station 45m Before Dep</strong>
+                                    </div>
+                                </div>
+
+                                <div class="train-actions">
+                                    <a href="${returnTrain.confirmTktDeepLink}" target="_blank" class="btn-train-confirm" style="border-color: #f59e0b; color: #f59e0b !important;">
+                                        🔍 Check Return Seats on ConfirmTkt ↗
+                                    </a>
+                                    <a href="${returnTrain.irctcDirectLink}" target="_blank" class="btn-train-irctc">
+                                        🎟️ Book Return Ticket ↗
+                                    </a>
+                                </div>
+                            </div>
+                        ` : ''}
+
+                        ${(!isFirstDay && !isLastDay) ? `
+                            <div class="navigation-box">
+                                <div class="nav-header">
+                                    <span class="nav-tag">🗺️ TODAY'S NAVIGATION</span>
+                                </div>
+                                <div class="nav-body" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; margin-top: 8px;">
+                                    <h4 style="margin: 0; color: #f8fafc; font-size: 14.5px;">Explore spots around ${destinationName}</h4>
+                                    <a href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(activity.slice(0, 35) + ' ' + destinationName)}" target="_blank" class="btn-maps">
+                                        📍 Open on Google Maps ↗
+                                    </a>
+                                </div>
+                            </div>
+                        ` : ''}
+                    </article>
+                `;
+            }).join("");
+        }
+
+        // --- 7. SAFETY RADAR & LOCAL SLANGS ---
+        const safetyContainer = $("safetyRadarList");
+        const slangContainer = $("slangList");
+
+        let safetyAlerts = [
+            { icon: "⚠️", title: "Unauthorized Station Cab Touts", desc: "Never accept rides from unverified touts shouting outside platforms. Always head directly to the official Prepaid Taxi Booth." },
+            { icon: "💰", title: "Overpriced Watersports/Scooter Rentals", desc: "Always negotiate fuel inclusions and check bike tires/brakes before paying upfront." },
+            { icon: "📍", title: "Isolated Beach/Cliff Warning", desc: "Avoid empty beach stretches or rocky edge cliffs post 8:30 PM." }
+        ];
+
+        let slangs = [
+            { phrase: "Kitna loge bhaiya?", meaning: "Standard polite start before auto or taxi hire." },
+            { phrase: "Thoda sahi lagao, regular aate hain!", meaning: "Use for instant flea market bargaining discount." },
+            { phrase: "Bhaiya meter se chalo", meaning: "Mandatory request for autos to avoid random flat fares." }
+        ];
+
+        if (destinationName.toLowerCase().includes("manali")) {
+            safetyAlerts = [
+                { icon: "⚠️", title: "Overpriced Snow Suit Rentals", desc: "Roadside shops charge 3x. Rent official suits only from registered HP Tourism kiosks." },
+                { icon: "🚗", title: "Black Ice Road Skidding", desc: "Do not self-drive to Atal Tunnel post twilight due to invisible freezing ice." }
+            ];
+        }
+
+        if (safetyContainer) {
+            safetyContainer.innerHTML = safetyAlerts.map(s => `
+                <div class="scam-alert-item">
+                    <span class="scam-icon">${s.icon}</span>
+                    <div>
+                        <h4>${s.title}</h4>
+                        <p>${s.desc}</p>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        if (slangContainer) {
+            slangContainer.innerHTML = slangs.map(sl => `
+                <div class="slang-item">
+                    <strong>"${sl.phrase}"</strong>
+                    <span>${sl.meaning}</span>
+                </div>
+            `).join("");
+        }
+
+        // --- 8. PACKING CHECKLIST ---
+        const packingItems = [
+            "Govt ID Proof (Aadhaar / Voter ID / Passport)",
+            "Power Bank & Mobile Chargers",
+            "Prescribed Medicines & First Aid Kit",
+            "Weather-Appropriate Clothes & Footwear",
+            "Water Bottle & Emergency Snacks",
+            "Offline Downloaded Maps & e-Tickets"
+        ];
+        const packingContainer = $("packingListContainer");
+        if (packingContainer) {
+            packingContainer.innerHTML = packingItems.map((item, idx) => `
+                <label class="check-item">
+                    <input type="checkbox" id="pack_${idx}">
+                    <span>${item}</span>
+                </label>
+            `).join("");
+        }
+
+        // --- 9. EXPENSE LOG & SPLIT BILL ---
+        let userExpenses = [];
+        try { userExpenses = JSON.parse(localStorage.getItem("smartYatraExpenses")) || []; } catch (e) {}
+
+        function renderExpenses() {
+            const list = $("expenseList");
+            const totalDisplay = $("totalSpentDisplay");
+            const splitTravellerCount = $("splitTravellerCount");
+            const splitPerPerson = $("splitPerPerson");
+
+            let total = 0;
+            if (list) {
+                list.innerHTML = userExpenses.map((exp, i) => {
+                    total += Number(exp.amount || 0);
+                    return `
+                        <div class="expense-row">
+                            <span>${exp.name}</span>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <strong style="color: #10b981;">₹${Number(exp.amount).toLocaleString('en-IN')}</strong>
+                                <button onclick="removeExpense(${i})" class="btn-del-exp">✕</button>
+                            </div>
+                        </div>
+                    `;
+                }).join("");
+            }
+
+            if (totalDisplay) totalDisplay.textContent = money(total);
+            if (splitTravellerCount) splitTravellerCount.textContent = travellers;
+            if (splitPerPerson) {
+                const perPerson = Math.round(total / (travellers || 1));
+                splitPerPerson.textContent = `₹${perPerson.toLocaleString('en-IN')} / person`;
+            }
+        }
+
+        window.removeExpense = function(index) {
+            userExpenses.splice(index, 1);
+            localStorage.setItem("smartYatraExpenses", JSON.stringify(userExpenses));
+            renderExpenses();
+        };
+
+        const addBtn = $("addExpenseBtn");
+        const itemInput = $("expenseItem");
+        const costInput = $("expenseCost");
+
+        if (addBtn && itemInput && costInput) {
+            addBtn.onclick = function() {
+                const item = itemInput.value.trim();
+                const cost = Number(costInput.value);
+
+                if (!item || isNaN(cost) || cost <= 0) {
+                    alert("Please enter a valid item and amount.");
+                    return;
+                }
+
+                userExpenses.push({ name: item, amount: cost });
+                localStorage.setItem("smartYatraExpenses", JSON.stringify(userExpenses));
+
+                itemInput.value = "";
+                costInput.value = "";
+                renderExpenses();
+            };
+
+            costInput.addEventListener("keydown", function(e) {
+                if (e.key === "Enter") addBtn.click();
+            });
+        }
+        renderExpenses();
+
+        // --- 10. LOCAL BUSINESSES ---
+        const localBizList = $("localBusinessList");
+        const vendors = (plan && plan.local_businesses && plan.local_businesses.length > 0) ? plan.local_businesses : [
+            {
+                name: "Verma Bike & Scooter Rental",
+                category: "🛵 Local Commute",
+                specialty: "Affordable self-drive bikes with zero commission",
+                estimated_cost: "₹350/day",
+                contact: "+91 9876543210",
+                badge: "🌱 Local Partner"
+            },
+            {
+                name: "Sahu Shuddh Desi Dhaba",
+                category: "🍲 Regional Food",
+                specialty: "Authentic regional thali made by local family",
+                estimated_cost: "₹140/thali",
+                contact: "+91 9812345678",
+                badge: "⭐ Family-Run"
+            }
+        ];
+
+        if (localBizList) {
+            localBizList.innerHTML = vendors.map(biz => `
+                <div style="border: 1px solid #1e3a5f; background: #0b192c; padding: 16px; border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <span style="background: #064e3b; color: #34d399; font-size: 11px; font-weight: bold; padding: 3px 8px; border-radius: 4px;">${biz.badge || '🌱 Local Partner'}</span>
+                        <h3 style="color: #fff; margin: 6px 0 2px 0; font-size: 16px;">${biz.name}</h3>
+                        <p style="color: #94a3b8; font-size: 13px; margin: 0;">${biz.specialty}</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <strong style="color: #f59e0b; font-size: 15px; display: block; margin-bottom: 6px;">${biz.estimated_cost}</strong>
+                        <a href="https://wa.me/${(biz.contact || '').replace(/[^0-9]/g, '')}?text=${encodeURIComponent('Hi! Found your business on SmartYatra.')}" target="_blank" style="background: #25D366; color: #000; padding: 6px 12px; border-radius: 6px; font-weight: bold; font-size: 12px; text-decoration: none; display: inline-block;">💬 Direct WhatsApp</a>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        // --- 11. AUTH POPUP & USER LOGIC ---
+        const authBtn = $("authBtn");
+        const authModal = $("authModal");
+        const closeAuthModal = $("closeAuthModal");
+        const tabLogin = $("tabLogin");
+        const tabSignup = $("tabSignup");
+        const loginForm = $("loginForm");
+        const signupForm = $("signupForm");
+        const loggedInView = $("loggedInView");
+        const authTabsContainer = $("authTabsContainer");
+        const profileIcon = $("profileIcon");
+        const profileName = $("profileName");
+        const loggedInUserName = $("loggedInUserName");
+        const loggedInUserEmail = $("loggedInUserEmail");
+        const logoutBtn = $("logoutBtn");
+        const authMsg = $("authMsg");
+
+        function setAuthMessage(text, isError = false) {
+            authMsg.textContent = text;
+            authMsg.className = "auth-msg " + (isError ? "error" : "success");
+            setTimeout(() => { authMsg.textContent = ""; }, 4000);
+        }
+
+        function updateProfileUI() {
+            const user = JSON.parse(localStorage.getItem("smartYatraUser") || "null");
+            if (user) {
+                profileIcon.textContent = "✅";
+                profileName.textContent = user.name.split(" ")[0];
+            } else {
+                profileIcon.textContent = "👤";
+                profileName.textContent = "Sign In / Sign Up";
+            }
+        }
+        updateProfileUI();
+
+        if (authBtn) {
+            authBtn.onclick = () => {
+                const user = JSON.parse(localStorage.getItem("smartYatraUser") || "null");
+                authModal.classList.add("active");
+                if (user) {
+                    authTabsContainer.style.display = "none";
+                    loginForm.style.display = "none";
+                    signupForm.style.display = "none";
+                    loggedInView.style.display = "block";
+                    loggedInUserName.textContent = user.name;
+                    loggedInUserEmail.textContent = user.email;
+                } else {
+                    authTabsContainer.style.display = "flex";
+                    loggedInView.style.display = "none";
+                    tabLogin.click();
+                }
+            };
+        }
+
+        if (closeAuthModal) closeAuthModal.onclick = () => authModal.classList.remove("active");
+        if (authModal) {
+            authModal.onclick = (e) => {
+                if (e.target === authModal) authModal.classList.remove("active");
+            };
+        }
+
+        tabLogin.onclick = () => {
+            tabLogin.classList.add("active");
+            tabSignup.classList.remove("active");
+            loginForm.style.display = "flex";
+            signupForm.style.display = "none";
+            authMsg.textContent = "";
+        };
+
+        tabSignup.onclick = () => {
+            tabSignup.classList.add("active");
+            tabLogin.classList.remove("active");
+            signupForm.style.display = "flex";
+            loginForm.style.display = "none";
+            authMsg.textContent = "";
+        };
+
+        loginForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const email = $("loginEmail").value;
+            const password = $("loginPassword").value;
+
+            try {
+                const res = await fetch("http://127.0.0.1:8000/api/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.detail || "Login failed");
+
+                localStorage.setItem("smartYatraUser", JSON.stringify(data.user));
+                setAuthMessage("Welcome back, " + data.user.name + "!");
+                setTimeout(() => {
+                    authModal.classList.remove("active");
+                    updateProfileUI();
+                }, 800);
+            } catch (err) {
+                setAuthMessage(err.message, true);
+            }
+        };
+
+        signupForm.onsubmit = async (e) => {
+            e.preventDefault();
+            const name = $("signupName").value;
+            const email = $("signupEmail").value;
+            const password = $("signupPassword").value;
+
+            try {
+                const res = await fetch("http://127.0.0.1:8000/api/signup", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, password })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.detail || "Registration failed");
+
+                setAuthMessage("Account created! Please sign in.");
+                signupForm.reset();
+                tabLogin.click();
+            } catch (err) {
+                setAuthMessage(err.message, true);
+            }
+        };
+
+        logoutBtn.onclick = () => {
+            localStorage.removeItem("smartYatraUser");
+            authModal.classList.remove("active");
+            updateProfileUI();
+        };
+
+        // --- 12. SAVE TRIP BUTTON ---
+        const saveTripBtn = $("saveTripBtn");
+        if (saveTripBtn) {
+            saveTripBtn.onclick = async () => {
+                const user = JSON.parse(localStorage.getItem("smartYatraUser") || "null");
+                if (!user) {
+                    alert("Trip save karne ke liye pehle Sign In karein!");
+                    authBtn.click();
+                    return;
+                }
+
+                const tripPayload = {
+                    user_id: user.id,
+                    destination: destinationName,
+                    total_budget: userBudget,
+                    trip_data: { trip, plan }
+                };
+
+                try {
+                    const res = await fetch("http://127.0.0.1:8000/api/trips/save", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(tripPayload)
+                    });
+                    const data = await res.json();
+                    if (!res.ok) throw new Error(data.detail || "Trip save nahi ho saki");
+                    
+                    saveTripBtn.textContent = "✅ Saved!";
+                    saveTripBtn.style.background = "#10b981";
+                    saveTripBtn.style.color = "#fff";
+                    alert(data.message);
+                } catch (err) {
+                    alert("Error: " + err.message);
+                }
+            };
+        }
+
+        // --- 13. WHATSAPP SHARE ---
+        const waBtn = $("whatsappShareBtn");
+        if (waBtn) {
+            waBtn.addEventListener("click", () => {
+                const waText = `🌟 *My Smart Yatra Plan* 🌟\n` +
+                               `📍 *Route:* ${originName} ➔ ${destinationName}\n` +
+                               `📅 *Dates:* ${formatDate(trip.startDate)} to ${formatDate(trip.endDate)}\n` +
+                               `💰 *Budget:* ₹${userBudget.toLocaleString('en-IN')}\n\n` +
+                               `Check out Smart Yatra for optimized itinerary and direct vendor connections!`;
+                window.open(`https://wa.me/?text=${encodeURIComponent(waText)}`, '_blank');
+            });
+        }
+    });
+    </script>
+</body>
+</html>

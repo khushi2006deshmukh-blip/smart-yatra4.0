@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Planning Your Trip | Smart Yatra</title>
+
+    <link rel="stylesheet" href="planning.css">
+</head>
+
+<body>
+
+    <!-- BACKGROUND -->
+    <div class="ambient ambient-one"></div>
+    <div class="ambient ambient-two"></div>
+
+    <!-- HEADER -->
+    <header class="planning-header">
+
+        <div class="brand">
+            <div class="brand-icon">✈</div>
+
+            <div class="brand-text">
+                <span>SMART</span>
+                <strong>YATRA</strong>
+            </div>
+        </div>
+
+        <div class="header-status">
+            <span class="status-dot"></span>
+            AI TRIP PLANNER
+        </div>
+
+    </header>
+
+
+    <!-- MAIN -->
+    <main class="planning-main">
+
+        <!-- HERO -->
+        <section class="planning-hero">
+
+            <div class="hero-badge">
+                ✦ SMART YATRA AI ENGINE
+            </div>
+
+            <h1>
+                Building your
+                <span>smart journey.</span>
+            </h1>
+
+            <p>
+                We're analysing your preferences, budget, routes,
+                live conditions and local experiences to create
+                your personalised trip roadmap.
+            </p>
+
+        </section>
+
+
+        <!-- TRIP SUMMARY -->
+        <section class="trip-summary">
+
+            <div class="summary-location">
+
+                <div class="location-icon">
+                    📍
+                </div>
+
+                <div>
+                    <span>YOUR JOURNEY</span>
+
+                    <strong id="routeDisplay">
+                        Your trip
+                    </strong>
+
+                    <small id="dateDisplay">
+                        Preparing your travel dates...
+                    </small>
+                </div>
+
+            </div>
+
+
+            <div class="summary-items">
+
+                <div class="summary-item">
+                    <span>BUDGET</span>
+                    <strong id="budgetDisplay">₹0</strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>TRAVELLERS</span>
+                    <strong id="travellerDisplay">1</strong>
+                </div>
+
+                <div class="summary-item">
+                    <span>TRANSPORT</span>
+                    <strong id="transportDisplay">Smart Choice</strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- PROGRESS -->
+        <section class="engine-card">
+
+            <div class="engine-heading">
+
+                <div>
+                    <span class="section-label">
+                        AI PLANNING PROCESS
+                    </span>
+
+                    <h2>
+                        Creating your Smart Trip Roadmap
+                    </h2>
+                </div>
+
+                <div class="percentage" id="percentage">
+                    0%
+                </div>
+
+            </div>
+
+
+            <!-- PROGRESS BAR -->
+            <div class="progress-track">
+                <div
+                    class="progress-fill"
+                    id="progressFill"
+                ></div>
+            </div>
+
+
+            <!-- PROCESS STEPS -->
+            <div class="process-list">
+
+
+                <!-- STEP 1 -->
+                <div
+                    class="process-step active"
+                    id="step1"
+                >
+
+                    <div class="step-icon">
+                        <span>01</span>
+                    </div>
+
+                    <div class="step-content">
+
+                        <div class="step-top">
+                            <strong>
+                                Understanding your trip
+                            </strong>
+
+                            <span class="step-status">
+                                Analysing
+                            </span>
+                        </div>
+
+                        <p>
+                            Reading your destination, dates,
+                            travellers, interests and travel style.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 2 -->
+                <div
+                    class="process-step"
+                    id="step2"
+                >
+
+                    <div class="step-icon">
+                        <span>02</span>
+                    </div>
+
+                    <div class="step-content">
+
+                        <div class="step-top">
+                            <strong>
+                                Checking budget feasibility
+                            </strong>
+
+                            <span class="step-status">
+                                Waiting
+                            </span>
+                        </div>
+
+                        <p>
+                            Estimating realistic travel costs and
+                            checking whether your trip fits the budget.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 3 -->
+                <div
+                    class="process-step"
+                    id="step3"
+                >
+
+                    <div class="step-icon">
+                        <span>03</span>
+                    </div>
+
+                    <div class="step-content">
+
+                        <div class="step-top">
+                            <strong>
+                                Finding suitable places
+                            </strong>
+
+                            <span class="step-status">
+                                Waiting
+                            </span>
+                        </div>
+
+                        <p>
+                            Matching attractions, local experiences
+                            and lesser-known places with your interests.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 4 -->
+                <div
+                    class="process-step"
+                    id="step4"
+                >
+
+                    <div class="step-icon">
+                        <span>04</span>
+                    </div>
+
+                    <div class="step-content">
+
+                        <div class="step-top">
+                            <strong>
+                                Optimising travel routes
+                            </strong>
+
+                            <span class="step-status">
+                                Waiting
+                            </span>
+                        </div>
+
+                        <p>
+                            Comparing distance, travel time, transport
+                            and route efficiency.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 5 -->
+                <div
+                    class="process-step"
+                    id="step5"
+                >
+
+                    <div class="step-icon">
+                        <span>05</span>
+                    </div>
+
+                    <div class="step-content">
+
+                        <div class="step-top">
+                            <strong>
+                                Checking live conditions
+                            </strong>
+
+                            <span class="step-status">
+                                Waiting
+                            </span>
+                        </div>
+
+                        <p>
+                            Checking weather and other live travel
+                            signals before finalising the itinerary.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 6 -->
+                <div
+                    class="process-step"
+                    id="step6"
+                >
+
+                    <div class="step-icon">
+                        <span>06</span>
+                    </div>
+
+                    <div class="step-content">
+
+                        <div class="step-top">
+                            <strong>
+                                Building day-wise itinerary
+                            </strong>
+
+                            <span class="step-status">
+                                Waiting
+                            </span>
+                        </div>
+
+                        <p>
+                            Organising places, activities, routes,
+                            costs, rest time and backup options.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- STEP 7 -->
+                <div
+                    class="process-step"
+                    id="step7"
+                >
+
+                    <div class="step-icon">
+                        <span>07</span>
+                    </div>
+
+                    <div class="step-content">
+
+                        <div class="step-top">
+                            <strong>
+                                Applying Tourism Balance
+                            </strong>
+
+                            <span class="step-status">
+                                Waiting
+                            </span>
+                        </div>
+
+                        <p>
+                            Balancing your preferences, budget,
+                            time, live conditions and local tourism benefit.
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- WHAT WILL BE CREATED -->
+        <section class="roadmap-preview">
+
+            <div class="preview-heading">
+
+                <span class="section-label">
+                    YOUR FINAL OUTPUT
+                </span>
+
+                <h2>
+                    What Smart Yatra is preparing
+                </h2>
+
+            </div>
+
+
+            <div class="preview-grid">
+
+                <div class="preview-card">
+
+                    <div class="preview-icon">📅</div>
+
+                    <div>
+                        <strong>Day-wise itinerary</strong>
+
+                        <p>
+                            Activities organised around your
+                            travel time and preferences.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="preview-card">
+
+                    <div class="preview-icon">💰</div>
+
+                    <div>
+                        <strong>Budget intelligence</strong>
+
+                        <p>
+                            Planned costs, estimated spending
+                            and budget checkpoints.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="preview-card">
+
+                    <div class="preview-icon">🧭</div>
+
+                    <div>
+                        <strong>Optimised routes</strong>
+
+                        <p>
+                            Efficient routes considering time,
+                            distance and travel cost.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="preview-card">
+
+                    <div class="preview-icon">🌦️</div>
+
+                    <div>
+                        <strong>Weather alternatives</strong>
+
+                        <p>
+                            Backup activities when live conditions
+                            affect your plan.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="preview-card">
+
+                    <div class="preview-icon">🏘️</div>
+
+                    <div>
+                        <strong>Local experiences</strong>
+
+                        <p>
+                            Local businesses, experiences and
+                            lesser-known places.
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="preview-card">
+
+                    <div class="preview-icon">💡</div>
+
+                    <div>
+                        <strong>Why this recommendation?</strong>
+
+                        <p>
+                            Understand why places and activities
+                            were selected for your trip.
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- AI NOTE -->
+        <div class="ai-note">
+
+            <span>✦</span>
+
+            <p>
+                Smart Yatra doesn't simply generate a list of places.
+                It balances your <strong>budget, time, preferences,
+                routes, live conditions and local tourism impact</strong>
+                before creating the final roadmap.
+            </p>
+
+        </div>
+
+    </main>
+
+
+    <div id="planningError" hidden></div>
+
+    <script src="planning.js"></script>
+
+
+</body>
+</html>

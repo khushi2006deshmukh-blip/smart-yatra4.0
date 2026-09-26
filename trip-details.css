@@ -1,0 +1,1882 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+
+/* =========================================================
+   SMART YATRA — TRIP DETAILS
+   Premium UI / UX
+========================================================= */
+
+
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+html {
+    scroll-behavior: smooth;
+}
+
+
+body {
+    min-height: 100vh;
+
+    font-family: 'Outfit', sans-serif;
+
+    color: #ffffff;
+
+    background:
+        radial-gradient(
+            circle at 10% 5%,
+            rgba(242, 161, 91, 0.08),
+            transparent 25%
+        ),
+        radial-gradient(
+            circle at 90% 35%,
+            rgba(69, 109, 150, 0.08),
+            transparent 28%
+        ),
+        linear-gradient(
+            135deg,
+            #050D17 0%,
+            #07111F 45%,
+            #081522 100%
+        );
+
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   AMBIENT BACKGROUND
+========================= */
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+
+    width: 450px;
+    height: 450px;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    filter: blur(110px);
+
+    z-index: -1;
+
+    opacity: 0.10;
+
+    animation: floatingGlow 10s ease-in-out infinite alternate;
+}
+
+
+body::before {
+    top: 80px;
+    left: -250px;
+
+    background: #F2A15B;
+}
+
+
+body::after {
+    right: -250px;
+    bottom: 50px;
+
+    background: #416B92;
+
+    animation-delay: -4s;
+}
+
+
+@keyframes floatingGlow {
+
+    0% {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+
+    100% {
+        transform: translate3d(50px, 30px, 0) scale(1.15);
+    }
+
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.details-header {
+
+    height: 82px;
+
+    padding: 0 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    position: sticky;
+    top: 0;
+
+    z-index: 100;
+
+    background: rgba(4, 11, 20, 0.82);
+
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+
+    box-shadow:
+        0 10px 35px rgba(0, 0, 0, 0.15);
+}
+
+
+/* =========================
+   BRAND
+========================= */
+
+.brand {
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    cursor: default;
+}
+
+
+.brand-icon {
+
+    width: 50px;
+    height: 50px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #F2A15B;
+
+    border-radius: 50%;
+
+    color: #F2A15B;
+
+    font-size: 22px;
+
+    background: rgba(242, 161, 91, 0.04);
+
+    box-shadow:
+        0 0 0 0 rgba(242, 161, 91, 0.25);
+
+    transition:
+        transform 0.4s ease,
+        box-shadow 0.4s ease,
+        background 0.4s ease;
+}
+
+
+.brand:hover .brand-icon {
+
+    transform: rotate(-8deg) scale(1.06);
+
+    background: rgba(242, 161, 91, 0.10);
+
+    box-shadow:
+        0 0 25px rgba(242, 161, 91, 0.18);
+}
+
+
+.brand-text {
+
+    display: flex;
+    gap: 6px;
+
+    font-size: 23px;
+
+    font-weight: 800;
+
+    letter-spacing: 0.4px;
+}
+
+
+.brand-text span {
+    color: #F2A15B;
+}
+
+
+.brand-text strong {
+    color: #ffffff;
+}
+
+
+/* =========================
+   PROGRESS
+========================= */
+
+.progress {
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    font-size: 11px;
+
+    font-weight: 600;
+
+    color: #5E6D7D;
+}
+
+
+.progress-step {
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    transition: 0.3s ease;
+}
+
+
+.progress-step span {
+
+    width: 27px;
+    height: 27px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    border: 1px solid rgba(255, 255, 255, 0.13);
+
+    font-size: 10px;
+
+    transition: 0.3s ease;
+}
+
+
+.progress-step.active {
+
+    color: #F2A15B;
+}
+
+
+.progress-step.active span {
+
+    border-color: #F2A15B;
+
+    background: rgba(242, 161, 91, 0.08);
+
+    box-shadow:
+        0 0 18px rgba(242, 161, 91, 0.12);
+}
+
+
+.progress-step.completed {
+
+    color: #8B9AAA;
+}
+
+
+.progress-step.completed span {
+
+    color: #F2A15B;
+
+    border-color: rgba(242, 161, 91, 0.45);
+
+    background: rgba(242, 161, 91, 0.08);
+}
+
+
+.progress-line {
+
+    width: 38px;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(242, 161, 91, 0.35),
+            rgba(255, 255, 255, 0.08)
+        );
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.details-main {
+
+    width: min(1050px, 92%);
+
+    margin: 0 auto;
+
+    padding: 75px 0 110px;
+}
+
+
+/* =========================
+   INTRO
+========================= */
+
+.intro {
+
+    text-align: center;
+
+    margin-bottom: 55px;
+
+    animation: introReveal 0.8s ease both;
+}
+
+
+@keyframes introReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+.eyebrow {
+
+    display: inline-flex;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-bottom: 20px;
+
+    color: #F2A15B;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 4px;
+
+    text-shadow:
+        0 0 18px rgba(242, 161, 91, 0.18);
+}
+
+
+.intro h1 {
+
+    font-size: clamp(42px, 5.2vw, 64px);
+
+    line-height: 1.02;
+
+    font-weight: 800;
+
+    letter-spacing: -1.8px;
+
+    margin-bottom: 20px;
+}
+
+
+.intro h1 span {
+
+    color: #F2A15B;
+
+    position: relative;
+}
+
+
+.intro h1 span::after {
+
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+
+    bottom: 2px;
+
+    height: 2px;
+
+    background: #F2A15B;
+
+    transform: scaleX(0);
+
+    transform-origin: left;
+
+    animation: underlineReveal 1s 0.7s ease forwards;
+}
+
+
+@keyframes underlineReveal {
+
+    to {
+        transform: scaleX(1);
+    }
+
+}
+
+
+.intro p {
+
+    width: min(650px, 100%);
+
+    margin: auto;
+
+    color: #8292A3;
+
+    font-size: 15px;
+
+    line-height: 1.8;
+
+    font-weight: 300;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.details-form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+
+/* =========================
+   FORM CARD
+========================= */
+
+.form-card {
+
+    position: relative;
+
+    padding: 34px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(13, 29, 46, 0.88),
+            rgba(7, 18, 30, 0.82)
+        );
+
+    border: 1px solid rgba(255, 255, 255, 0.075);
+
+    border-radius: 22px;
+
+    box-shadow:
+        0 18px 55px rgba(0, 0, 0, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.025);
+
+    overflow: hidden;
+
+    transition:
+        transform 0.45s cubic-bezier(.2,.8,.2,1),
+        border-color 0.4s ease,
+        box-shadow 0.4s ease;
+
+    animation: cardReveal 0.7s ease both;
+}
+
+
+/* top shine */
+
+.form-card::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 1px;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(242, 161, 91, 0.35),
+            transparent
+        );
+
+    opacity: 0;
+
+    transition: opacity 0.4s ease;
+}
+
+
+/* subtle orange glow */
+
+.form-card::after {
+
+    content: "";
+
+    position: absolute;
+
+    width: 180px;
+    height: 180px;
+
+    top: -120px;
+    right: -100px;
+
+    border-radius: 50%;
+
+    background: #F2A15B;
+
+    filter: blur(80px);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: opacity 0.5s ease;
+}
+
+
+.form-card:hover {
+
+    transform: translateY(-3px);
+
+    border-color: rgba(242, 161, 91, 0.16);
+
+    box-shadow:
+        0 25px 65px rgba(0, 0, 0, 0.28),
+        0 0 35px rgba(242, 161, 91, 0.025);
+}
+
+
+.form-card:hover::before {
+    opacity: 1;
+}
+
+
+.form-card:hover::after {
+    opacity: 0.035;
+}
+
+
+@keyframes cardReveal {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================
+   CARD TITLE
+========================= */
+
+.card-title {
+
+    display: flex;
+    align-items: center;
+
+    gap: 17px;
+
+    margin-bottom: 30px;
+}
+
+
+.number {
+
+    width: 43px;
+    height: 43px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 13px;
+
+    color: #F2A15B;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(242, 161, 91, 0.13),
+            rgba(242, 161, 91, 0.04)
+        );
+
+    border: 1px solid rgba(242, 161, 91, 0.10);
+
+    font-size: 12px;
+
+    font-weight: 700;
+
+    transition:
+        transform 0.35s ease,
+        box-shadow 0.35s ease;
+}
+
+
+.form-card:hover .number {
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(242, 161, 91, 0.10);
+}
+
+
+.card-title h2 {
+
+    margin-bottom: 5px;
+
+    color: #ffffff;
+
+    font-size: 20px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.2px;
+}
+
+
+.card-title p {
+
+    color: #68798A;
+
+    font-size: 12px;
+
+    font-weight: 300;
+}
+
+
+/* =========================
+   ROUTE
+========================= */
+
+.route-grid {
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 18px;
+}
+
+
+.field {
+    flex: 1;
+}
+
+
+.field label {
+
+    display: block;
+
+    margin-bottom: 9px;
+
+    color: #8191A2;
+
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 2.5px;
+}
+
+
+.input-box {
+
+    height: 60px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 0 18px;
+
+    background:
+        rgba(3, 13, 24, 0.72);
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    border-radius: 13px;
+
+    transition:
+        border-color 0.35s ease,
+        background 0.35s ease,
+        box-shadow 0.35s ease,
+        transform 0.35s ease;
+}
+
+
+.input-box:focus-within {
+
+    border-color: rgba(242, 161, 91, 0.60);
+
+    background:
+        rgba(242, 161, 91, 0.035);
+
+    box-shadow:
+        0 0 0 4px rgba(242, 161, 91, 0.055),
+        0 10px 30px rgba(0, 0, 0, 0.15);
+
+    transform: translateY(-1px);
+}
+
+
+.input-box > span {
+
+    color: #F2A15B;
+
+    font-size: 16px;
+
+    transition: transform 0.3s ease;
+}
+
+
+.input-box:focus-within > span {
+
+    transform: scale(1.12);
+}
+
+
+.input-box input {
+
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    font-family: 'Outfit', sans-serif;
+
+    font-size: 15px;
+
+    font-weight: 500;
+}
+
+
+.input-box input::placeholder {
+
+    color: #526477;
+
+    transition: color 0.3s ease;
+}
+
+
+.input-box:focus-within input::placeholder {
+    color: #6F8091;
+}
+
+
+.destination-box {
+
+    border-color: rgba(242, 161, 91, 0.22);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(242, 161, 91, 0.07),
+            rgba(242, 161, 91, 0.025)
+        );
+}
+
+
+.destination-box input {
+
+    color: #F2A15B;
+
+    font-weight: 600;
+
+    text-transform: capitalize;
+}
+
+
+.destination-locked {
+
+    color: #F2A15B !important;
+
+    cursor: not-allowed;
+}
+
+
+.route-arrow {
+
+    width: 42px;
+    height: 60px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #F2A15B;
+
+    font-size: 22px;
+
+    transition:
+        transform 0.4s ease,
+        text-shadow 0.4s ease;
+}
+
+
+.form-card:hover .route-arrow {
+
+    transform: translateX(4px);
+
+    text-shadow:
+        0 0 15px rgba(242, 161, 91, 0.35);
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+.date-grid {
+
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 20px;
+}
+
+
+.date-grid input {
+
+    width: 100%;
+
+    height: 60px;
+
+    padding: 0 17px;
+
+    border: 1px solid rgba(255, 255, 255, 0.10);
+
+    border-radius: 13px;
+
+    outline: none;
+
+    background:
+        rgba(3, 13, 24, 0.72);
+
+    color: #ffffff;
+
+    font-family: 'Outfit', sans-serif;
+
+    font-size: 14px;
+
+    transition:
+        border-color 0.35s ease,
+        background 0.35s ease,
+        box-shadow 0.35s ease,
+        transform 0.35s ease;
+}
+
+
+.date-grid input:hover {
+
+    border-color: rgba(255, 255, 255, 0.18);
+}
+
+
+.date-grid input:focus {
+
+    border-color: rgba(242, 161, 91, 0.60);
+
+    background:
+        rgba(242, 161, 91, 0.035);
+
+    box-shadow:
+        0 0 0 4px rgba(242, 161, 91, 0.055);
+
+    transform: translateY(-1px);
+}
+
+
+/* Calendar icon */
+
+.date-grid input::-webkit-calendar-picker-indicator {
+
+    opacity: 0.65;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.25s ease,
+        transform 0.25s ease;
+}
+
+
+.date-grid input:hover::-webkit-calendar-picker-indicator {
+
+    opacity: 1;
+
+    transform: scale(1.08);
+}
+
+
+.error-message {
+
+    min-height: 18px;
+
+    margin-top: 9px;
+
+    color: #FF8585;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   TRAVELLERS
+========================= */
+
+.traveller-control {
+
+    min-height: 78px;
+
+    padding: 17px 19px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-radius: 14px;
+
+    background:
+        rgba(3, 13, 24, 0.72);
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    transition:
+        border-color 0.3s ease,
+        background 0.3s ease;
+}
+
+
+.traveller-control:hover {
+
+    border-color: rgba(242, 161, 91, 0.18);
+
+    background:
+        rgba(242, 161, 91, 0.025);
+}
+
+
+.traveller-control > div:first-child strong {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    font-size: 14px;
+
+    font-weight: 600;
+}
+
+
+.traveller-control > div:first-child span {
+
+    color: #637487;
+
+    font-size: 11px;
+}
+
+
+.counter {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 17px;
+}
+
+
+.counter button {
+
+    width: 41px;
+    height: 41px;
+
+    border: 1px solid rgba(255, 255, 255, 0.12);
+
+    border-radius: 11px;
+
+    background: #0D1D2D;
+
+    color: #ffffff;
+
+    font-family: 'Outfit', sans-serif;
+
+    font-size: 20px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        color 0.25s ease,
+        background 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+
+.counter button:hover {
+
+    border-color: #F2A15B;
+
+    color: #F2A15B;
+
+    background: rgba(242, 161, 91, 0.07);
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 18px rgba(242, 161, 91, 0.08);
+}
+
+
+.counter button:active {
+
+    transform: translateY(0) scale(0.94);
+}
+
+
+.counter strong {
+
+    min-width: 24px;
+
+    text-align: center;
+
+    color: #ffffff;
+
+    font-size: 18px;
+}
+
+
+/* =========================
+   TRANSPORT
+========================= */
+
+.transport-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(4, 1fr);
+
+    gap: 12px;
+}
+
+
+.option-card {
+
+    position: relative;
+
+    display: block;
+
+    cursor: pointer;
+}
+
+
+.option-card input {
+
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    opacity: 0;
+
+}
+
+
+.option-content {
+
+    min-height: 120px;
+
+    padding: 18px 12px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    text-align: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 15px;
+
+    background:
+        rgba(3, 13, 24, 0.68);
+
+    transition:
+        transform 0.3s cubic-bezier(.2,.8,.2,1),
+        border-color 0.3s ease,
+        background 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.option-card:hover .option-content {
+
+    transform: translateY(-4px);
+
+    border-color: rgba(242, 161, 91, 0.25);
+
+    background:
+        rgba(242, 161, 91, 0.035);
+
+    box-shadow:
+        0 12px 25px rgba(0, 0, 0, 0.18);
+}
+
+
+.option-icon {
+
+    width: 44px;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 11px;
+
+    border-radius: 12px;
+
+    background: rgba(255, 255, 255, 0.035);
+
+    font-size: 21px;
+
+    transition:
+        transform 0.35s ease,
+        background 0.35s ease;
+}
+
+
+.option-card:hover .option-icon {
+
+    transform: translateY(-3px) scale(1.05);
+
+    background: rgba(242, 161, 91, 0.08);
+}
+
+
+.option-content strong {
+
+    margin-bottom: 5px;
+
+    color: #ffffff;
+
+    font-size: 13px;
+
+    font-weight: 600;
+}
+
+
+.option-content small {
+
+    color: #617285;
+
+    font-size: 10px;
+}
+
+
+.option-card input:checked + .option-content {
+
+    border-color: #F2A15B;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(242, 161, 91, 0.12),
+            rgba(242, 161, 91, 0.035)
+        );
+
+    box-shadow:
+        0 0 0 1px rgba(242, 161, 91, 0.10),
+        0 12px 30px rgba(242, 161, 91, 0.06);
+}
+
+
+.option-card input:checked + .option-content .option-icon {
+
+    color: #F2A15B;
+
+    background:
+        rgba(242, 161, 91, 0.12);
+
+    transform: scale(1.05);
+}
+
+
+/* =========================
+   INTERESTS
+========================= */
+
+.interest-grid {
+
+    display: grid;
+
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 12px;
+}
+
+
+.interest {
+
+    position: relative;
+
+    min-height: 55px;
+
+    padding: 13px 15px;
+
+    display: flex;
+
+    align-items: center;
+
+    border: 1px solid rgba(255, 255, 255, 0.08);
+
+    border-radius: 13px;
+
+    background:
+        rgba(3, 13, 24, 0.68);
+
+    color: #AAB6C2;
+
+    font-size: 12px;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease,
+        background 0.3s ease,
+        color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+
+.interest:hover {
+
+    transform: translateY(-3px);
+
+    border-color: rgba(242, 161, 91, 0.25);
+
+    color: #ffffff;
+
+    background:
+        rgba(242, 161, 91, 0.035);
+
+    box-shadow:
+        0 10px 24px rgba(0, 0, 0, 0.16);
+}
+
+
+.interest input {
+    display: none;
+}
+
+
+.interest span {
+
+    margin-right: 9px;
+
+    font-size: 17px;
+
+    transition:
+        transform 0.3s ease;
+}
+
+
+.interest:hover span {
+
+    transform: scale(1.12);
+}
+
+
+.interest:has(input:checked) {
+
+    color: #ffffff;
+
+    border-color: #F2A15B;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(242, 161, 91, 0.11),
+            rgba(242, 161, 91, 0.035)
+        );
+
+    box-shadow:
+        0 8px 22px rgba(242, 161, 91, 0.06);
+}
+
+
+.interest:has(input:checked) span {
+
+    transform: scale(1.1);
+}
+
+
+/* =========================
+   BUDGET SUMMARY
+========================= */
+
+.budget-summary {
+
+    position: relative;
+
+    padding: 22px 26px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    overflow: hidden;
+
+    border: 1px solid rgba(242, 161, 91, 0.18);
+
+    border-radius: 17px;
+
+    background:
+        linear-gradient(
+            110deg,
+            rgba(242, 161, 91, 0.10),
+            rgba(242, 161, 91, 0.025)
+        );
+
+    box-shadow:
+        0 12px 35px rgba(0, 0, 0, 0.12);
+}
+
+
+.budget-summary::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -100%;
+
+    width: 70%;
+
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.035),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    animation: budgetShine 5s ease-in-out infinite;
+}
+
+
+@keyframes budgetShine {
+
+    0% {
+        left: -100%;
+    }
+
+    40%,
+    100% {
+        left: 150%;
+    }
+
+}
+
+
+.budget-summary span {
+
+    display: block;
+
+    margin-bottom: 5px;
+
+    color: #7F8F9F;
+
+    font-size: 11px;
+}
+
+
+.budget-summary strong {
+
+    color: #F2A15B;
+
+    font-size: 29px;
+
+    font-weight: 700;
+
+    letter-spacing: -0.5px;
+
+    text-shadow:
+        0 0 20px rgba(242, 161, 91, 0.12);
+}
+
+
+.budget-status {
+
+    padding: 8px 13px;
+
+    border: 1px solid rgba(242, 161, 91, 0.16);
+
+    border-radius: 30px;
+
+    background: rgba(242, 161, 91, 0.055);
+
+    color: #F2A15B;
+
+    font-size: 11px;
+
+    font-weight: 600;
+}
+
+
+/* =========================
+   GENERATE BUTTON
+========================= */
+
+.generate-btn {
+
+    position: relative;
+
+    width: 100%;
+
+    height: 66px;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 22px;
+
+    overflow: hidden;
+
+    border: none;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            100deg,
+            #E99550,
+            #F2A15B,
+            #FFB86B
+        );
+
+    color: #07111F;
+
+    font-family: 'Outfit', sans-serif;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    letter-spacing: 1.2px;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 12px 30px rgba(242, 161, 91, 0.13);
+
+    transition:
+        transform 0.35s cubic-bezier(.2,.8,.2,1),
+        box-shadow 0.35s ease,
+        filter 0.35s ease;
+}
+
+
+.generate-btn::before {
+
+    content: "";
+
+    position: absolute;
+
+    top: 0;
+    left: -120%;
+
+    width: 70%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 255, 255, 0.32),
+            transparent
+        );
+
+    transform: skewX(-20deg);
+
+    transition: left 0.7s ease;
+}
+
+
+.generate-btn:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 18px 42px rgba(242, 161, 91, 0.20);
+
+    filter: brightness(1.04);
+}
+
+
+.generate-btn:hover::before {
+
+    left: 150%;
+}
+
+
+.generate-btn:active {
+
+    transform: translateY(-1px) scale(0.99);
+
+    box-shadow:
+        0 8px 20px rgba(242, 161, 91, 0.15);
+}
+
+
+.generate-btn strong {
+
+    font-size: 22px;
+
+    transition:
+        transform 0.35s ease;
+}
+
+
+.generate-btn:hover strong {
+
+    transform: translateX(7px);
+}
+
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+
+::-webkit-scrollbar-track {
+    background: #050C15;
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    border-radius: 10px;
+
+    background:
+        linear-gradient(
+            #263B50,
+            #F2A15B
+        );
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+    background: #F2A15B;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+    .details-header {
+        padding: 0 25px;
+    }
+
+    .details-main {
+        width: 92%;
+    }
+
+    .transport-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+@media (max-width: 700px) {
+
+    .details-header {
+        height: 72px;
+    }
+
+    .brand-icon {
+        width: 43px;
+        height: 43px;
+    }
+
+    .brand-text {
+        font-size: 19px;
+    }
+
+    .progress {
+        display: none;
+    }
+
+    .details-main {
+        padding-top: 50px;
+    }
+
+    .intro {
+        margin-bottom: 38px;
+    }
+
+    .intro h1 {
+        letter-spacing: -1px;
+    }
+
+    .form-card {
+        padding: 25px;
+    }
+
+    .route-grid {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+
+    .route-arrow {
+        width: 100%;
+        height: 28px;
+
+        transform: rotate(90deg);
+    }
+
+    .form-card:hover .route-arrow {
+        transform: rotate(90deg) translateX(4px);
+    }
+
+    .date-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .interest-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .details-header {
+        padding: 0 18px;
+    }
+
+    .brand-text {
+        font-size: 17px;
+    }
+
+    .details-main {
+        width: calc(100% - 28px);
+
+        padding-top: 38px;
+        padding-bottom: 70px;
+    }
+
+    .intro h1 {
+        font-size: 40px;
+    }
+
+    .intro p {
+        font-size: 14px;
+    }
+
+    .eyebrow {
+        font-size: 9px;
+        letter-spacing: 2.5px;
+    }
+
+    .form-card {
+        padding: 20px;
+
+        border-radius: 18px;
+    }
+
+    .card-title {
+        gap: 12px;
+    }
+
+    .number {
+        width: 38px;
+        height: 38px;
+    }
+
+    .card-title h2 {
+        font-size: 17px;
+    }
+
+    .card-title p {
+        font-size: 11px;
+    }
+
+    .transport-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .option-content {
+        min-height: 105px;
+    }
+
+    .interest-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .traveller-control {
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 18px;
+    }
+
+    .counter {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .counter button {
+        width: 45%;
+    }
+
+    .counter strong {
+        min-width: auto;
+    }
+
+    .budget-summary {
+        padding: 20px;
+
+        flex-direction: column;
+        align-items: flex-start;
+
+        gap: 15px;
+    }
+
+    .budget-status {
+        align-self: flex-start;
+    }
+
+}
+/* =========================================
+   WHITE CALENDAR ICON - FINAL FIX
+========================================= */
+
+/* Keep date input dark */
+.date-grid input[type="date"] {
+    color: #ffffff !important;
+    background: #07111F !important;
+    color-scheme: dark;
+}
+
+/* Hide Chrome's black native icon */
+.date-grid input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0 !important;
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+}
+
+/* Put a white calendar icon on the date field */
+.date-grid .field {
+    position: relative;
+}
+
+/* White calendar icon */
+.date-grid .field::after {
+    content: "";
+    position: absolute;
+
+    right: 22px;
+    bottom: 19px;
+
+    width: 16px;
+    height: 16px;
+
+    border: 2px solid #ffffff;
+    border-radius: 3px;
+
+    pointer-events: none;
+
+    box-sizing: border-box;
+}
+
+/* Calendar top bar */
+.date-grid .field::before {
+    content: "";
+
+    position: absolute;
+
+    right: 22px;
+    bottom: 29px;
+
+    width: 16px;
+    height: 4px;
+
+    border-top: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+
+    pointer-events: none;
+}
+
+/* Make date input area clickable */
+.date-grid input[type="date"] {
+    cursor: pointer;
+}

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Trip Details | Smart Yatra</title>
+
+    <link rel="stylesheet" href="trip-details.css">
+
+</head>
+
+
+<body>
+
+    <header class="details-header">
+
+        <div class="brand">
+
+            <div class="brand-icon">✈</div>
+
+            <div class="brand-text">
+                <span>SMART</span>
+                <strong>YATRA</strong>
+            </div>
+
+        </div>
+
+
+        <div class="progress">
+
+            <div class="progress-step completed">
+                <span>✓</span>
+                Budget
+            </div>
+
+            <div class="progress-line"></div>
+
+            <div class="progress-step active">
+                <span>02</span>
+                Trip Details
+            </div>
+
+            <div class="progress-line"></div>
+
+            <div class="progress-step">
+                <span>03</span>
+                Your Plan
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <main class="details-main">
+
+        <section class="intro">
+
+            <div class="eyebrow">
+                ✦ BUILD YOUR PERFECT JOURNEY
+            </div>
+
+            <h1>
+                Tell us about your
+                <span>trip.</span>
+            </h1>
+
+            <p>
+                We'll use these details to create an itinerary
+                that fits your time, budget and travel style.
+            </p>
+
+        </section>
+
+
+        <form id="tripDetailsForm" class="details-form">
+
+
+            <!-- =====================
+                 DESTINATION
+            ====================== -->
+
+            <div class="form-card">
+
+                <div class="card-title">
+                    <span class="number">01</span>
+
+                    <div>
+                        <h2>Where are you going?</h2>
+                        <p>Your destination is already selected.</p>
+                    </div>
+                </div>
+
+
+                <div class="route-grid">
+
+                    <div class="field">
+
+                        <label>FROM</label>
+
+                        <div class="input-box">
+
+                            <span>⌖</span>
+
+                            <input
+                                type="text"
+                                id="fromCity"
+                                placeholder="Enter starting city"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="route-arrow">
+                        →
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>TO</label>
+
+                        <div class="input-box destination-box">
+
+                            <span>📍</span>
+
+                           <input
+    type="text"
+    id="toCity"
+    placeholder="Enter destination"
+>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================
+                 DATE
+            ====================== -->
+
+            <div class="form-card">
+
+                <div class="card-title">
+
+                    <span class="number">02</span>
+
+                    <div>
+                        <h2>When are you travelling?</h2>
+                        <p>Select your exact travel dates.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="date-grid">
+
+                    <div class="field">
+
+                        <label>START DATE</label>
+
+                        <input
+                            type="date"
+                            id="startDate"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label>END DATE</label>
+
+                        <input
+                            type="date"
+                            id="endDate"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+                <div id="dateMessage" class="error-message"></div>
+
+            </div>
+
+
+
+            <!-- =====================
+                 TRAVELLERS
+            ====================== -->
+
+            <div class="form-card">
+
+                <div class="card-title">
+
+                    <span class="number">03</span>
+
+                    <div>
+                        <h2>Who is travelling?</h2>
+                        <p>Tell us how many people are joining.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="traveller-control">
+
+                    <div>
+
+                        <strong>Number of travellers</strong>
+
+                        <span>Adults / children travelling together</span>
+
+                    </div>
+
+
+                    <div class="counter">
+
+                        <button
+                            type="button"
+                            id="minusTraveller"
+                        >
+                            −
+                        </button>
+
+                        <strong id="travellerCount">
+                            1
+                        </strong>
+
+                        <button
+                            type="button"
+                            id="plusTraveller"
+                        >
+                            +
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================
+                 TRANSPORT
+            ====================== -->
+
+            <div class="form-card">
+
+                <div class="card-title">
+
+                    <span class="number">04</span>
+
+                    <div>
+                        <h2>How do you want to travel?</h2>
+                        <p>Choose your preferred transport.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="transport-grid">
+
+                    <label class="option-card">
+
+                        <input
+                            type="radio"
+                            name="transport"
+                            value="Smart Choice"
+                            checked
+                        >
+
+                        <div class="option-content">
+
+                            <span class="option-icon">✦</span>
+
+                            <strong>Smart Choice</strong>
+
+                            <small>Let AI decide</small>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        <input
+                            type="radio"
+                            name="transport"
+                            value="Flight"
+                        >
+
+                        <div class="option-content">
+
+                            <span class="option-icon">✈</span>
+
+                            <strong>Flight</strong>
+
+                            <small>Fastest option</small>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        <input
+                            type="radio"
+                            name="transport"
+                            value="Train"
+                        >
+
+                        <div class="option-content">
+
+                            <span class="option-icon">🚆</span>
+
+                            <strong>Train</strong>
+
+                            <small>Comfortable journey</small>
+
+                        </div>
+
+                    </label>
+
+
+                    <label class="option-card">
+
+                        <input
+                            type="radio"
+                            name="transport"
+                            value="Bus"
+                        >
+
+                        <div class="option-content">
+
+                            <span class="option-icon">🚌</span>
+
+                            <strong>Bus</strong>
+
+                            <small>Budget friendly</small>
+
+                        </div>
+
+                    </label>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================
+                 INTERESTS
+            ====================== -->
+
+            <div class="form-card">
+
+                <div class="card-title">
+
+                    <span class="number">05</span>
+
+                    <div>
+                        <h2>What do you want to experience?</h2>
+                        <p>Select everything that interests you.</p>
+                    </div>
+
+                </div>
+
+
+                <div class="interest-grid">
+
+                    <label class="interest">
+                        <input type="checkbox" value="Culture">
+                        <span>🏛️</span>
+                        Culture & Heritage
+                    </label>
+
+
+                    <label class="interest">
+                        <input type="checkbox" value="Food">
+                        <span>🍛</span>
+                        Food & Local Cuisine
+                    </label>
+
+
+                    <label class="interest">
+                        <input type="checkbox" value="Nature">
+                        <span>🌿</span>
+                        Nature & Wildlife
+                    </label>
+
+
+                    <label class="interest">
+                        <input type="checkbox" value="Adventure">
+                        <span>🏔️</span>
+                        Adventure
+                    </label>
+
+
+                    <label class="interest">
+                        <input type="checkbox" value="Shopping">
+                        <span>🛍️</span>
+                        Shopping
+                    </label>
+
+
+                    <label class="interest">
+                        <input type="checkbox" value="Relaxation">
+                        <span>🌅</span>
+                        Relaxation
+                    </label>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =====================
+                 BUDGET SUMMARY
+            ====================== -->
+
+            <div class="budget-summary">
+
+                <div>
+
+                    <span>Your total budget</span>
+
+                    <strong id="budgetDisplay">
+                        ₹0
+                    </strong>
+
+                </div>
+
+                <div class="budget-status">
+                    ✓ Budget locked
+                </div>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="generate-btn"
+            >
+
+                <span>CREATE MY SMART TRIP</span>
+
+                <strong>→</strong>
+
+            </button>
+
+
+        </form>
+
+    </main>
+
+
+    <script src="trip-details.js"></script>
+
+</body>
+
+</html>

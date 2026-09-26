@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Trip Setup | Smart Yatra</title>
+
+    <link rel="stylesheet" href="trip-setup.css">
+</head>
+
+<body>
+
+    <!-- Background -->
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <!-- Header -->
+    <header class="setup-header">
+        <div class="brand">
+            <div class="brand-icon">✈</div>
+            <div class="brand-text">
+                <span class="brand-smart">SMART</span>
+                <span>YATRA</span>
+            </div>
+        </div>
+
+        <div class="step-indicator">
+            <span class="active">01</span>
+            <span class="line"></span>
+            <span>02</span>
+        </div>
+    </header>
+
+
+    <!-- Main -->
+    <main class="setup-main">
+
+        <div class="setup-card">
+
+            <!-- Top label -->
+            <div class="eyebrow">
+                <span>✦</span>
+                LET'S PLAN YOUR JOURNEY
+                <span>✦</span>
+            </div>
+
+            <h1>
+                One thing we need<br>
+                <span>before we begin.</span>
+            </h1>
+
+            <p class="subtitle">
+                Tell us your total trip budget and Smart Yatra
+                will build the rest around it.
+            </p>
+
+
+            <!-- Destination -->
+            <div class="destination-preview">
+
+                <div class="location-icon">📍</div>
+
+                <div>
+                    <small>YOUR DESTINATION</small>
+                    <strong id="destinationName">Your destination</strong>
+                </div>
+
+            </div>
+
+
+            <!-- Budget -->
+            <div class="budget-section">
+
+                <label for="budgetInput">
+                    TOTAL TRIP BUDGET
+                </label>
+
+                <div class="budget-input-wrapper">
+
+                    <span class="currency">₹</span>
+
+                    <input
+                        type="number"
+                        id="budgetInput"
+                        placeholder="Enter your budget"
+                        min="1"
+                        autocomplete="off"
+                    >
+
+                </div>
+
+                <p class="budget-hint">
+                    This is your total budget for the entire trip.
+                </p>
+
+            </div>
+
+
+            <!-- Continue -->
+            <button
+                id="continueButton"
+                class="continue-btn"
+                type="button"
+            >
+                <span>CONTINUE TO TRIP DETAILS</span>
+                <span class="arrow">→</span>
+            </button>
+
+
+            <div class="secure-note">
+                <span>✦</span>
+                Your budget is used only to personalize your trip.
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <script src="trip-setup.js"></script>
+
+</body>
+</html>

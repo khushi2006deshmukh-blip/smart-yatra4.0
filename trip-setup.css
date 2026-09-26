@@ -1,0 +1,469 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(242, 161, 91, 0.10), transparent 28%),
+        radial-gradient(circle at 85% 80%, rgba(74, 116, 160, 0.10), transparent 30%),
+        #07111F;
+
+    color: #fff;
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+}
+
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.background-glow {
+    position: fixed;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    filter: blur(100px);
+    pointer-events: none;
+    opacity: 0.12;
+}
+
+.glow-one {
+    top: -180px;
+    left: -150px;
+    background: #F2A15B;
+}
+
+.glow-two {
+    bottom: -200px;
+    right: -150px;
+    background: #3D6B9A;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.setup-header {
+    height: 82px;
+    padding: 0 55px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(4, 11, 20, 0.96);
+    backdrop-filter: blur(15px);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.brand-icon {
+    width: 52px;
+    height: 52px;
+
+    border: 1px solid #F2A15B;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #F2A15B;
+    font-size: 23px;
+}
+
+.brand-text {
+    display: flex;
+    gap: 6px;
+
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.brand-smart {
+    color: #F2A15B;
+}
+
+
+/* =========================
+   STEP
+========================= */
+
+.step-indicator {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    font-size: 13px;
+    font-weight: 600;
+    color: #687787;
+}
+
+.step-indicator .active {
+    color: #F2A15B;
+}
+
+.step-indicator .line {
+    width: 45px;
+    height: 1px;
+    background: rgba(255,255,255,0.18);
+}
+
+
+/* =========================
+   MAIN
+========================= */
+
+.setup-main {
+    min-height: calc(100vh - 82px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 55px 20px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.setup-card {
+    width: min(620px, 100%);
+
+    padding: 55px 60px;
+
+    background: rgba(11, 23, 38, 0.88);
+
+    border: 1px solid rgba(255,255,255,0.10);
+    border-radius: 28px;
+
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.45),
+        inset 0 1px 0 rgba(255,255,255,0.04);
+
+    backdrop-filter: blur(20px);
+
+    text-align: center;
+
+    animation: cardAppear 0.7s ease forwards;
+}
+
+@keyframes cardAppear {
+
+    from {
+        opacity: 0;
+        transform: translateY(25px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+
+/* =========================
+   EYEBROW
+========================= */
+
+.eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+
+    color: #F2A15B;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 4px;
+
+    margin-bottom: 22px;
+}
+
+
+/* =========================
+   HEADING
+========================= */
+
+.setup-card h1 {
+    font-size: clamp(36px, 5vw, 54px);
+    line-height: 1.05;
+    font-weight: 800;
+
+    margin-bottom: 18px;
+}
+
+.setup-card h1 span {
+    color: #F2A15B;
+}
+
+.subtitle {
+    max-width: 480px;
+    margin: auto;
+
+    color: #94A2B1;
+
+    font-size: 16px;
+    line-height: 1.7;
+}
+
+
+/* =========================
+   DESTINATION
+========================= */
+
+.destination-preview {
+    margin-top: 35px;
+
+    padding: 18px 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    text-align: left;
+
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.08);
+
+    border-radius: 15px;
+}
+
+.location-icon {
+    width: 45px;
+    height: 45px;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: rgba(242,161,91,0.10);
+
+    font-size: 20px;
+}
+
+.destination-preview small {
+    display: block;
+
+    margin-bottom: 4px;
+
+    color: #758393;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.destination-preview strong {
+    font-size: 18px;
+    font-weight: 600;
+
+    text-transform: capitalize;
+}
+
+
+/* =========================
+   BUDGET
+========================= */
+
+.budget-section {
+    margin-top: 35px;
+
+    text-align: left;
+}
+
+.budget-section label {
+    display: block;
+
+    margin-bottom: 10px;
+
+    color: #A9B4C0;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.budget-input-wrapper {
+    position: relative;
+}
+
+.currency {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    color: #F2A15B;
+
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.budget-input-wrapper input {
+    width: 100%;
+    height: 68px;
+
+    padding: 0 20px 0 52px;
+
+    border-radius: 15px;
+
+    border: 1px solid rgba(255,255,255,0.12);
+
+    outline: none;
+
+    background: #081522;
+
+    color: #fff;
+
+    font-family: 'Outfit', sans-serif;
+
+    font-size: 25px;
+    font-weight: 600;
+
+    transition: 0.3s;
+}
+
+.budget-input-wrapper input::placeholder {
+    color: #536273;
+    font-size: 17px;
+    font-weight: 400;
+}
+
+.budget-input-wrapper input:focus {
+    border-color: #F2A15B;
+
+    box-shadow:
+        0 0 0 4px rgba(242,161,91,0.08);
+}
+
+.budget-hint {
+    margin-top: 9px;
+
+    color: #647383;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   BUTTON
+========================= */
+
+.continue-btn {
+    width: 100%;
+    height: 60px;
+
+    margin-top: 30px;
+
+    border: none;
+    border-radius: 14px;
+
+    background: #F2A15B;
+    color: #08111C;
+
+    font-family: 'Outfit', sans-serif;
+
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+
+    transition: 0.3s;
+}
+
+.continue-btn:hover {
+    background: #FFB86B;
+
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 12px 30px rgba(242,161,91,0.20);
+}
+
+.continue-btn .arrow {
+    font-size: 21px;
+
+    transition: 0.3s;
+}
+
+.continue-btn:hover .arrow {
+    transform: translateX(5px);
+}
+
+
+/* =========================
+   NOTE
+========================= */
+
+.secure-note {
+    margin-top: 22px;
+
+    color: #596878;
+
+    font-size: 11px;
+}
+
+.secure-note span {
+    color: #F2A15B;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 650px) {
+
+    .setup-header {
+        padding: 0 20px;
+    }
+
+    .brand-text {
+        font-size: 19px;
+    }
+
+    .brand-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .setup-card {
+        padding: 40px 25px;
+    }
+
+    .step-indicator {
+        display: none;
+    }
+
+    .eyebrow {
+        letter-spacing: 2px;
+    }
+
+}
